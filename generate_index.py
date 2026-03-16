@@ -19,7 +19,7 @@ def build_project_index():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>可视化模型与底层架构 | 我的个人网站</title>
+    <title>Rainbow 的个人网站</title>
     <style>
         :root {
             --bg-color: #e0c3fc;
@@ -28,6 +28,7 @@ def build_project_index():
             --border-color: rgba(255, 255, 255, 0.6);
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             --hover-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+            --accent-color: #0366d6;
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
@@ -39,6 +40,7 @@ def build_project_index():
                 --border-color: rgba(255, 255, 255, 0.1);
                 --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
                 --hover-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+                --accent-color: #58a6ff;
             }
         }
 
@@ -59,9 +61,7 @@ def build_project_index():
         }
 
         @media (prefers-color-scheme: dark) {
-            body {
-                background-image: linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            }
+            body { background-image: linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
         }
 
         @keyframes gradientBG {
@@ -70,25 +70,16 @@ def build_project_index():
             100% { background-position: 0% 50%; }
         }
 
-        /* 核心逻辑：平滑过渡入口动画 */
         .animate-item {
             opacity: 0;
             transform: translateY(30px);
             animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.3s; }
-        .delay-3 { animation-delay: 0.5s; }
-
         @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 个人信息面板样式 */
         .profile-section {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -101,6 +92,21 @@ def build_project_index():
             box-shadow: var(--shadow);
             max-width: 600px;
             width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dev-tag {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            letter-spacing: 1px;
         }
 
         .avatar {
@@ -117,51 +123,53 @@ def build_project_index():
             font-size: 2.2rem;
             font-weight: 700;
             margin: 0 0 0.5rem 0;
+            letter-spacing: 0.5px;
         }
 
         .profile-bio {
             font-size: 1.1rem;
             opacity: 0.8;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             line-height: 1.6;
+            max-width: 90%;
         }
 
-        .skill-tags {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .skill-tag {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
+        .toggle-btn {
+            background: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
             font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
-        header {
-            text-align: center;
-            margin: 4rem 0 3rem 0;
-            padding: 0 2rem;
-        }
-
-        header h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
         }
 
         .grid-container {
-            display: grid;
+            display: none; /* 初始状态剥离文档流 */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
             width: 100%;
             max-width: 1200px;
             padding: 0 2rem 5rem 2rem;
             box-sizing: border-box;
+            margin-top: 3rem;
         }
+
+        /* 纯原生类名切换控制物理状态 */
+        .grid-container.show { display: grid; }
+        .grid-container.visible { opacity: 1; transform: translateY(0); }
 
         .card {
             background: var(--card-bg);
@@ -195,27 +203,41 @@ def build_project_index():
     </style>
 </head>
 <body>
-    <div class="profile-section animate-item delay-1">
-        <img src="https://avatars.githubusercontent.com/u/9919?s=280&v=4" alt="Avatar" class="avatar">
-        <h1 class="profile-name">Rainbow0408</h1>
-        <p class="profile-bio">专注于底层系统、C/C++ 与人工智能架构的开发者。极度理性的数据驱动型学习者。</p>
-        <div class="skill-tags">
-            <span class="skill-tag">C / C++</span>
-            <span class="skill-tag">系统底层架构</span>
-            <span class="skill-tag">算法可视化</span>
-        </div>
+    <div class="profile-section animate-item">
+        <div class="dev-tag">🚀 网站前期开发中</div>
+        <img src="./avatar.jpg" alt="Avatar" class="avatar">
+        <h1 class="profile-name">Rainbow</h1>
+        <p class="profile-bio">重度C/C++用户，人工智能与网络安全开发者</p>
+        <button id="toggleBtn" class="toggle-btn">展示可视化模型</button>
     </div>
 
-    <header class="animate-item delay-2">
-        <h2>我的可视化模型</h2>
-    </header>
-
-    <div class="grid-container animate-item delay-3">"""
+    <div id="modelGrid" class="grid-container">"""
 
     html_tail = """
     </div>
     
     <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+    <script>
+        // 利用极简的原生闭包逻辑监听按钮状态
+        const btn = document.getElementById('toggleBtn');
+        const grid = document.getElementById('modelGrid');
+        
+        btn.addEventListener('click', () => {
+            if (!grid.classList.contains('show')) {
+                // 1. 恢复文档流渲染
+                grid.classList.add('show');
+                // 2. 利用微小宏任务延时触发 CSS 的平移和透明度补间动画
+                setTimeout(() => grid.classList.add('visible'), 10);
+                btn.textContent = '收起可视化模型';
+            } else {
+                // 1. 触发淡出动画
+                grid.classList.remove('visible');
+                // 2. 严格等待 500ms（对齐 CSS 的 transition 时长）后彻底移除元素节点
+                setTimeout(() => grid.classList.remove('show'), 500); 
+                btn.textContent = '展示可视化模型';
+            }
+        });
+    </script>
 </body>
 </html>"""
 
@@ -231,7 +253,7 @@ def build_project_index():
     with open('index.html', 'w', encoding='utf-8') as f:
         f.write(full_html)
 
-    print(f"[Success] 已注入个人信息面板与平滑级联过渡动画。")
+    print(f"[Success] UI 逻辑层更新：信息与头像配置已就绪，原生折叠动画已挂载。")
 
 if __name__ == '__main__':
     build_project_index()
