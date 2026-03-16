@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A* Pathfinding Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <h1>A* Pathfinding</h1>
+        <p>Drag start/end, paint walls, watch open/closed sets</p>
+      </header>
+
+      <section class="controls">
+        <div class="control">
+          <label for="speed">Speed</label>
+          <input id="speed" type="range" min="1" max="100" value="60" />
+          <span id="speedValue">60</span>
+        </div>
+        <div class="buttons">
+          <button id="run" class="primary">Run A*</button>
+          <button id="clear" class="ghost">Clear Walls</button>
+          <button id="reset" class="ghost">Reset</button>
+        </div>
+      </section>
+
+      <section class="board">
+        <canvas id="grid" width="720" height="480" aria-label="A* grid"></canvas>
+      </section>
+
+      <section class="legend">
+        <div><span class="swatch start"></span>Start</div>
+        <div><span class="swatch end"></span>End</div>
+        <div><span class="swatch wall"></span>Wall</div>
+        <div><span class="swatch open"></span>Open</div>
+        <div><span class="swatch closed"></span>Closed</div>
+        <div><span class="swatch path"></span>Path</div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

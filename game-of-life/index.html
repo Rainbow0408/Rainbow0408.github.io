@@ -1,0 +1,26 @@
+﻿<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>康威生命游戏</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="layout">
+    <div class="toolbar">
+      <button id="toggle" class="primary">开始</button>
+      <button id="clear" class="ghost">清空</button>
+      <div class="speed">
+        <label for="speed">速度</label>
+        <input id="speed" type="range" min="1" max="30" step="1" value="10" />
+        <span id="speedValue">10</span>
+      </div>
+    </div>
+
+    <canvas id="board" width="640" height="640" aria-label="生命游戏画布"></canvas>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

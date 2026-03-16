@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>狼羊草生态循环模拟</title>
+    <style>
+      :root {
+        color-scheme: only light;
+        --bg: #0f1217;
+        --panel: rgba(255, 255, 255, 0.92);
+        --ink: #0b0f16;
+        --muted: #556070;
+        --grid: rgba(255, 255, 255, 0.04);
+        --grass: #34d399;
+        --sheep: #f8fafc;
+        --wolf: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 20% 20%, #1d2430 0%, transparent 55%),
+          radial-gradient(circle at 80% 0%, #1b2a3f 0%, transparent 55%),
+          var(--bg);
+        font-family: "Space Grotesk", "Noto Sans", system-ui, sans-serif;
+        color: var(--ink);
+      }
+
+      .shell {
+        width: min(1100px, 94vw);
+        padding: 20px;
+        border-radius: 20px;
+        background: var(--panel);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.3);
+        display: grid;
+        gap: 14px;
+      }
+
+      header h1 {
+        margin: 0 0 4px;
+        font-size: 26px;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .hud {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .controls {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      .control {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .control input,
+      .control select {
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(15, 23, 42, 0.2);
+        font-size: 13px;
+        background: #fff;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      button {
+        border: 1px solid rgba(15, 23, 42, 0.2);
+        border-radius: 999px;
+        padding: 8px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        background: #fff;
+      }
+
+      button.primary {
+        background: #0f172a;
+        color: #fff;
+        border-color: transparent;
+      }
+
+      .badge {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.08);
+      }
+
+      canvas {
+        width: 100%;
+        height: auto;
+        border-radius: 14px;
+        background: #0a0f14;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      }
+
+      .legend {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+      }
+
+      .swatch.grass {
+        background: var(--grass);
+      }
+      .swatch.sheep {
+        background: var(--sheep);
+      }
+      .swatch.wolf {
+        background: var(--wolf);
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <h1>狼 / 羊 / 草 生态循环模拟</h1>
+        <p>连续空间多智能体系统：捕食、繁衍、季节与草生长。</p>
+      </header>
+
+      <div class="hud">
+        <div class="badge" id="statGrass">草: 0</div>
+        <div class="badge" id="statSheep">羊: 0</div>
+        <div class="badge" id="statWolf">狼: 0</div>
+        <div class="badge" id="statSeason">季节: 春</div>
+        <div class="badge" id="statFps">FPS: 0</div>
+      </div>
+
+      <section class="controls">
+        <div class="control">
+          <label for="sheepCount">初始羊数量</label>
+          <input id="sheepCount" type="number" min="0" max="200" value="24" />
+        </div>
+        <div class="control">
+          <label for="wolfCount">初始狼数量</label>
+          <input id="wolfCount" type="number" min="0" max="200" value="8" />
+        </div>
+        <div class="control">
+          <label for="spawnMode">初始出生位置</label>
+          <select id="spawnMode">
+            <option value="random">随机分布</option>
+            <option value="center">中心聚集</option>
+            <option value="left">左侧区域</option>
+            <option value="right">右侧区域</option>
+            <option value="top">上侧区域</option>
+            <option value="bottom">下侧区域</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="sheepSpeed">羊跑步速度</label>
+          <input id="sheepSpeed" type="range" min="10" max="90" value="34" />
+        </div>
+        <div class="control">
+          <label for="wolfSpeed">狼跑步速度</label>
+          <input id="wolfSpeed" type="range" min="10" max="110" value="42" />
+        </div>
+        <div class="control">
+          <label for="sheepBreed">羊繁衍间隔（秒）</label>
+          <input id="sheepBreed" type="range" min="4" max="20" value="10" />
+        </div>
+        <div class="control">
+          <label for="wolfBreed">狼繁衍间隔（秒）</label>
+          <input id="wolfBreed" type="range" min="6" max="26" value="15" />
+        </div>
+        <div class="control">
+          <label for="grassMode">草生长模式（四种）</label>
+          <select id="grassMode">
+            <option value="steady">稳定</option>
+            <option value="burst">爆发</option>
+            <option value="pulse">脉冲</option>
+            <option value="drift">漂移</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="grassDensity">初始茂密度</label>
+          <input id="grassDensity" type="range" min="20" max="260" value="140" />
+        </div>
+        <div class="control">
+          <label for="startSeason">开局季节</label>
+          <select id="startSeason">
+            <option value="spring">春</option>
+            <option value="summer">夏</option>
+            <option value="autumn">秋</option>
+            <option value="winter">冬</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="seasonLength">季节时长（秒）</label>
+          <input id="seasonLength" type="range" min="20" max="120" value="60" />
+        </div>
+        <div class="buttons">
+          <button id="apply" class="primary">应用设置并重置</button>
+          <button id="toggle">暂停</button>
+        </div>
+      </section>
+
+      <canvas id="scene" width="960" height="540"></canvas>
+
+      <div class="legend">
+        <div><span class="swatch grass"></span>草</div>
+        <div><span class="swatch sheep"></span>羊</div>
+        <div><span class="swatch wolf"></span>狼</div>
+      </div>
+    </main>
+
+    <script>
+      const CONFIG = {
+        width: 960,
+        height: 540,
+        grass: {
+          initial: 140,
+          spawnInterval: 1.0,
+          spawnBatch: 1,
+          radius: 3,
+          mode: "steady",
+        },
+        sheep: {
+          initial: 24,
+          speed: 34,
+          fleeMultiplier: 1.55,
+          perception: 120,
+          energyStart: 80,
+          energyMax: 130,
+          energyDecay: 4.8,
+          eatGain: 48,
+          reproduceInterval: 10,
+          reproduceEnergy: 95,
+          reproduceCost: 35,
+          radius: 6,
+          wanderJitter: 2.2,
+        },
+        wolf: {
+          initial: 8,
+          speed: 42,
+          perception: 160,
+          energyStart: 110,
+          energyMax: 170,
+          energyDecay: 6.2,
+          eatGain: 75,
+          reproduceInterval: 15,
+          reproduceEnergy: 130,
+          reproduceCost: 55,
+          radius: 8,
+          wanderJitter: 1.8,
+        },
+        eatRadius: 10,
+        boundsPadding: 8,
+        season: {
+          order: ["spring", "summer", "autumn", "winter"],
+          labels: {
+            spring: "春",
+            summer: "夏",
+            autumn: "秋",
+            winter: "冬",
+          },
+          multipliers: {
+            spring: 1.25,
+            summer: 1.0,
+            autumn: 0.85,
+            winter: 0.6,
+          },
+          length: 60,
+          start: "spring",
+        },
+        spawnMode: "random",
+      };
+
+      class Grass {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+      }
+
+      class Sheep {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.vx = (Math.random() * 2 - 1) * CONFIG.sheep.speed;
+          this.vy = (Math.random() * 2 - 1) * CONFIG.sheep.speed;
+          this.energy = CONFIG.sheep.energyStart;
+          this.reproduceTimer = 0;
+          this.wanderAngle = Math.random() * Math.PI * 2;
+        }
+
+        update(dt, world) {
+          this.energy -= CONFIG.sheep.energyDecay * dt;
+          this.reproduceTimer += dt;
+          if (this.energy <= 0) {
+            world.markSheepDead(this);
+            return;
+          }
+
+          const threat = world.findNearestWolf(this, CONFIG.sheep.perception);
+          const food = threat ? null : world.findNearestGrass(this, CONFIG.sheep.perception);
+
+          let targetVx = this.vx;
+          let targetVy = this.vy;
+          let speed = CONFIG.sheep.speed;
+
+          if (threat) {
+            const dx = this.x - threat.x;
+            const dy = this.y - threat.y;
+            const len = Math.hypot(dx, dy) || 1;
+            speed *= CONFIG.sheep.fleeMultiplier;
+            targetVx = (dx / len) * speed;
+            targetVy = (dy / len) * speed;
+          } else if (food) {
+            const dx = food.x - this.x;
+            const dy = food.y - this.y;
+            const len = Math.hypot(dx, dy) || 1;
+            targetVx = (dx / len) * speed;
+            targetVy = (dy / len) * speed;
+          } else {
+            this.wanderAngle += (Math.random() - 0.5) * CONFIG.sheep.wanderJitter * dt;
+            targetVx = Math.cos(this.wanderAngle) * speed;
+            targetVy = Math.sin(this.wanderAngle) * speed;
+          }
+
+          const steer = 0.12;
+          this.vx += (targetVx - this.vx) * steer;
+          this.vy += (targetVy - this.vy) * steer;
+          this.x += this.vx * dt;
+          this.y += this.vy * dt;
+          world.keepInBounds(this);
+
+          const grass = world.tryEatGrass(this);
+          if (grass) {
+            this.energy = Math.min(CONFIG.sheep.energyMax, this.energy + CONFIG.sheep.eatGain);
+          }
+
+          if (
+            this.reproduceTimer >= CONFIG.sheep.reproduceInterval &&
+            this.energy >= CONFIG.sheep.reproduceEnergy
+          ) {
+            this.reproduceTimer = 0;
+            this.energy -= CONFIG.sheep.reproduceCost;
+            world.spawnSheepNear(this);
+          }
+        }
+
+        draw(ctx) {
+          ctx.beginPath();
+          ctx.fillStyle = "#f8fafc";
+          ctx.arc(this.x, this.y, CONFIG.sheep.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      class Wolf {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.vx = (Math.random() * 2 - 1) * CONFIG.wolf.speed;
+          this.vy = (Math.random() * 2 - 1) * CONFIG.wolf.speed;
+          this.energy = CONFIG.wolf.energyStart;
+          this.reproduceTimer = 0;
+          this.wanderAngle = Math.random() * Math.PI * 2;
+        }
+
+        update(dt, world) {
+          this.energy -= CONFIG.wolf.energyDecay * dt;
+          this.reproduceTimer += dt;
+          if (this.energy <= 0) {
+            world.markWolfDead(this);
+            return;
+          }
+
+          const prey = world.findNearestSheep(this, CONFIG.wolf.perception);
+          let targetVx = this.vx;
+          let targetVy = this.vy;
+          let speed = CONFIG.wolf.speed;
+
+          if (prey) {
+            const dx = prey.x - this.x;
+            const dy = prey.y - this.y;
+            const len = Math.hypot(dx, dy) || 1;
+            targetVx = (dx / len) * speed;
+            targetVy = (dy / len) * speed;
+          } else {
+            this.wanderAngle += (Math.random() - 0.5) * CONFIG.wolf.wanderJitter * dt;
+            targetVx = Math.cos(this.wanderAngle) * speed;
+            targetVy = Math.sin(this.wanderAngle) * speed;
+          }
+
+          const steer = 0.14;
+          this.vx += (targetVx - this.vx) * steer;
+          this.vy += (targetVy - this.vy) * steer;
+          this.x += this.vx * dt;
+          this.y += this.vy * dt;
+          world.keepInBounds(this);
+
+          const sheep = world.tryEatSheep(this);
+          if (sheep) {
+            this.energy = Math.min(CONFIG.wolf.energyMax, this.energy + CONFIG.wolf.eatGain);
+          }
+
+          if (
+            this.reproduceTimer >= CONFIG.wolf.reproduceInterval &&
+            this.energy >= CONFIG.wolf.reproduceEnergy
+          ) {
+            this.reproduceTimer = 0;
+            this.energy -= CONFIG.wolf.reproduceCost;
+            world.spawnWolfNear(this);
+          }
+        }
+
+        draw(ctx) {
+          const angle = Math.atan2(this.vy, this.vx);
+          const size = CONFIG.wolf.radius;
+          const tipX = this.x + Math.cos(angle) * size;
+          const tipY = this.y + Math.sin(angle) * size;
+          const leftX = this.x + Math.cos(angle + 2.4) * size;
+          const leftY = this.y + Math.sin(angle + 2.4) * size;
+          const rightX = this.x + Math.cos(angle - 2.4) * size;
+          const rightY = this.y + Math.sin(angle - 2.4) * size;
+
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath();
+          ctx.moveTo(tipX, tipY);
+          ctx.lineTo(leftX, leftY);
+          ctx.lineTo(rightX, rightY);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      class World {
+        constructor() {
+          this.grasses = [];
+          this.sheep = [];
+          this.wolves = [];
+          this.deadSheep = new Set();
+          this.deadWolves = new Set();
+          this.grassTimer = 0;
+          this.time = 0;
+          this.seasonIndex = CONFIG.season.order.indexOf(CONFIG.season.start);
+          this.seasonTimer = 0;
+          this.spawnMode = CONFIG.spawnMode;
+        }
+
+        seed() {
+          this.grasses = [];
+          this.sheep = [];
+          this.wolves = [];
+          this.time = 0;
+          this.seasonIndex = CONFIG.season.order.indexOf(CONFIG.season.start);
+          this.seasonTimer = 0;
+          this.spawnMode = CONFIG.spawnMode;
+          for (let i = 0; i < CONFIG.grass.initial; i += 1) {
+            this.grasses.push(this.randomGrass());
+          }
+          for (let i = 0; i < CONFIG.sheep.initial; i += 1) {
+            this.sheep.push(this.randomSheep());
+          }
+          for (let i = 0; i < CONFIG.wolf.initial; i += 1) {
+            this.wolves.push(this.randomWolf());
+          }
+        }
+
+        randomPosition() {
+          const pad = CONFIG.boundsPadding;
+          const bounds = this.getSpawnBounds();
+          const minX = pad + bounds.minX * (CONFIG.width - pad * 2);
+          const maxX = pad + bounds.maxX * (CONFIG.width - pad * 2);
+          const minY = pad + bounds.minY * (CONFIG.height - pad * 2);
+          const maxY = pad + bounds.maxY * (CONFIG.height - pad * 2);
+          return {
+            x: minX + Math.random() * (maxX - minX),
+            y: minY + Math.random() * (maxY - minY),
+          };
+        }
+
+        getSpawnBounds() {
+          switch (this.spawnMode) {
+            case "center":
+              return { minX: 0.35, maxX: 0.65, minY: 0.35, maxY: 0.65 };
+            case "left":
+              return { minX: 0.0, maxX: 0.4, minY: 0.1, maxY: 0.9 };
+            case "right":
+              return { minX: 0.6, maxX: 1.0, minY: 0.1, maxY: 0.9 };
+            case "top":
+              return { minX: 0.1, maxX: 0.9, minY: 0.0, maxY: 0.4 };
+            case "bottom":
+              return { minX: 0.1, maxX: 0.9, minY: 0.6, maxY: 1.0 };
+            default:
+              return { minX: 0.05, maxX: 0.95, minY: 0.05, maxY: 0.95 };
+          }
+        }
+
+        randomGrass() {
+          const pos = this.randomPosition();
+          return new Grass(pos.x, pos.y);
+        }
+
+        randomSheep() {
+          const pos = this.randomPosition();
+          return new Sheep(pos.x, pos.y);
+        }
+
+        randomWolf() {
+          const pos = this.randomPosition();
+          return new Wolf(pos.x, pos.y);
+        }
+
+        markSheepDead(sheep) {
+          this.deadSheep.add(sheep);
+        }
+
+        markWolfDead(wolf) {
+          this.deadWolves.add(wolf);
+        }
+
+        keepInBounds(entity) {
+          const pad = CONFIG.boundsPadding;
+          if (entity.x < pad) entity.x = pad;
+          if (entity.y < pad) entity.y = pad;
+          if (entity.x > CONFIG.width - pad) entity.x = CONFIG.width - pad;
+          if (entity.y > CONFIG.height - pad) entity.y = CONFIG.height - pad;
+        }
+
+        findNearestGrass(seeker, radius) {
+          let best = null;
+          let bestDist = Infinity;
+          for (const grass of this.grasses) {
+            const dist = Math.hypot(grass.x - seeker.x, grass.y - seeker.y);
+            if (dist < radius && dist < bestDist) {
+              best = grass;
+              bestDist = dist;
+            }
+          }
+          return best;
+        }
+
+        findNearestWolf(seeker, radius) {
+          let best = null;
+          let bestDist = Infinity;
+          for (const wolf of this.wolves) {
+            const dist = Math.hypot(wolf.x - seeker.x, wolf.y - seeker.y);
+            if (dist < radius && dist < bestDist) {
+              best = wolf;
+              bestDist = dist;
+            }
+          }
+          return best;
+        }
+
+        findNearestSheep(seeker, radius) {
+          let best = null;
+          let bestDist = Infinity;
+          for (const sheep of this.sheep) {
+            const dist = Math.hypot(sheep.x - seeker.x, sheep.y - seeker.y);
+            if (dist < radius && dist < bestDist) {
+              best = sheep;
+              bestDist = dist;
+            }
+          }
+          return best;
+        }
+
+        tryEatGrass(sheep) {
+          for (let i = 0; i < this.grasses.length; i += 1) {
+            const grass = this.grasses[i];
+            const dist = Math.hypot(grass.x - sheep.x, grass.y - sheep.y);
+            if (dist <= CONFIG.eatRadius) {
+              this.grasses.splice(i, 1);
+              return grass;
+            }
+          }
+          return null;
+        }
+
+        tryEatSheep(wolf) {
+          for (let i = 0; i < this.sheep.length; i += 1) {
+            const sheep = this.sheep[i];
+            const dist = Math.hypot(sheep.x - wolf.x, sheep.y - wolf.y);
+            if (dist <= CONFIG.eatRadius) {
+              this.sheep.splice(i, 1);
+              return sheep;
+            }
+          }
+          return null;
+        }
+
+        spawnSheepNear(parent) {
+          const offset = (Math.random() - 0.5) * 18;
+          const child = new Sheep(parent.x + offset, parent.y + offset);
+          this.keepInBounds(child);
+          this.sheep.push(child);
+        }
+
+        spawnWolfNear(parent) {
+          const offset = (Math.random() - 0.5) * 20;
+          const child = new Wolf(parent.x + offset, parent.y + offset);
+          this.keepInBounds(child);
+          this.wolves.push(child);
+        }
+
+        updateGrass(dt) {
+          this.time += dt;
+          this.grassTimer += dt;
+          const season = CONFIG.season.order[this.seasonIndex] || "spring";
+          const seasonFactor = CONFIG.season.multipliers[season] ?? 1.0;
+          const modeFactor = this.getGrassModeFactor(this.time);
+          const effectiveInterval = CONFIG.grass.spawnInterval / Math.max(0.2, seasonFactor * modeFactor);
+          if (this.grassTimer >= effectiveInterval) {
+            this.grassTimer = 0;
+            let batch = Math.max(1, Math.round(CONFIG.grass.spawnBatch * seasonFactor * modeFactor));
+            if (CONFIG.grass.mode === "burst" && Math.random() < 0.25) {
+              batch += 2;
+            }
+            for (let i = 0; i < batch; i += 1) {
+              this.grasses.push(this.randomGrass());
+            }
+          }
+          this.updateSeason(dt);
+        }
+
+        getGrassModeFactor(time) {
+          switch (CONFIG.grass.mode) {
+            case "burst":
+              return 1.35;
+            case "pulse":
+              return 0.9 + 0.3 * Math.sin((time / 6) * Math.PI * 2);
+            case "drift":
+              return 0.9 + 0.2 * Math.sin((time / 18) * Math.PI * 2);
+            default:
+              return 1.0;
+          }
+        }
+
+        updateSeason(dt) {
+          this.seasonTimer += dt;
+          if (this.seasonTimer >= CONFIG.season.length) {
+            this.seasonTimer = 0;
+            this.seasonIndex = (this.seasonIndex + 1) % CONFIG.season.order.length;
+          }
+        }
+
+        cleanup() {
+          if (this.deadSheep.size > 0) {
+            this.sheep = this.sheep.filter((s) => !this.deadSheep.has(s));
+            this.deadSheep.clear();
+          }
+          if (this.deadWolves.size > 0) {
+            this.wolves = this.wolves.filter((w) => !this.deadWolves.has(w));
+            this.deadWolves.clear();
+          }
+        }
+      }
+
+      const canvas = document.getElementById("scene");
+      const ctx = canvas.getContext("2d");
+      const statGrass = document.getElementById("statGrass");
+      const statSheep = document.getElementById("statSheep");
+      const statWolf = document.getElementById("statWolf");
+      const statSeason = document.getElementById("statSeason");
+      const statFps = document.getElementById("statFps");
+      const sheepCountInput = document.getElementById("sheepCount");
+      const wolfCountInput = document.getElementById("wolfCount");
+      const spawnModeInput = document.getElementById("spawnMode");
+      const sheepSpeedInput = document.getElementById("sheepSpeed");
+      const wolfSpeedInput = document.getElementById("wolfSpeed");
+      const sheepBreedInput = document.getElementById("sheepBreed");
+      const wolfBreedInput = document.getElementById("wolfBreed");
+      const grassModeInput = document.getElementById("grassMode");
+      const grassDensityInput = document.getElementById("grassDensity");
+      const startSeasonInput = document.getElementById("startSeason");
+      const seasonLengthInput = document.getElementById("seasonLength");
+      const applyButton = document.getElementById("apply");
+      const toggleButton = document.getElementById("toggle");
+
+      canvas.width = CONFIG.width;
+      canvas.height = CONFIG.height;
+
+      const world = new World();
+      world.seed();
+
+      let paused = false;
+      let lastTime = performance.now();
+      let fpsTime = 0;
+      let fpsFrames = 0;
+
+      function drawBackground() {
+        ctx.fillStyle = "#0a0f14";
+        ctx.fillRect(0, 0, CONFIG.width, CONFIG.height);
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+        ctx.lineWidth = 1;
+        const gridSize = 30;
+        for (let x = 0; x <= CONFIG.width; x += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, CONFIG.height);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= CONFIG.height; y += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(CONFIG.width, y);
+          ctx.stroke();
+        }
+      }
+
+      function render() {
+        drawBackground();
+        for (const grass of world.grasses) {
+          ctx.beginPath();
+          ctx.fillStyle = "#34d399";
+          ctx.arc(grass.x, grass.y, CONFIG.grass.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (const sheep of world.sheep) {
+          sheep.draw(ctx);
+        }
+        for (const wolf of world.wolves) {
+          wolf.draw(ctx);
+        }
+      }
+
+      function updateStats(fps) {
+        statGrass.textContent = `Grass: ${world.grasses.length}`;
+        statSheep.textContent = `Sheep: ${world.sheep.length}`;
+        statWolf.textContent = `Wolves: ${world.wolves.length}`;
+        statFps.textContent = `FPS: ${fps}`;
+        const seasonKey = CONFIG.season.order[world.seasonIndex] || "spring";
+        statSeason.textContent = `季节: ${CONFIG.season.labels[seasonKey] || "春"}`;
+      }
+
+      function applySettings() {
+        CONFIG.sheep.initial = Number(sheepCountInput.value) || 0;
+        CONFIG.wolf.initial = Number(wolfCountInput.value) || 0;
+        CONFIG.spawnMode = spawnModeInput.value;
+        CONFIG.sheep.speed = Number(sheepSpeedInput.value);
+        CONFIG.wolf.speed = Number(wolfSpeedInput.value);
+        CONFIG.sheep.reproduceInterval = Number(sheepBreedInput.value);
+        CONFIG.wolf.reproduceInterval = Number(wolfBreedInput.value);
+        CONFIG.grass.mode = grassModeInput.value;
+        CONFIG.grass.initial = Number(grassDensityInput.value);
+        CONFIG.season.start = startSeasonInput.value;
+        CONFIG.season.length = Number(seasonLengthInput.value);
+        world.seed();
+        updateStats(0);
+      }
+
+      applyButton.addEventListener("click", () => {
+        applySettings();
+      });
+
+      toggleButton.addEventListener("click", () => {
+        paused = !paused;
+        toggleButton.textContent = paused ? "继续" : "暂停";
+      });
+
+      function loop(now) {
+        const dt = Math.min(0.05, (now - lastTime) / 1000);
+        lastTime = now;
+
+        if (!paused) {
+          world.updateGrass(dt);
+          for (const sheep of world.sheep) {
+            sheep.update(dt, world);
+          }
+          for (const wolf of world.wolves) {
+            wolf.update(dt, world);
+          }
+          world.cleanup();
+          render();
+        }
+
+        fpsTime += dt;
+        fpsFrames += 1;
+        if (fpsTime >= 0.5) {
+          const fps = Math.round(fpsFrames / fpsTime);
+          updateStats(fps);
+          fpsTime = 0;
+          fpsFrames = 0;
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      render();
+      requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>

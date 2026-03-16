@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>撒豆估算 π | 蒙特卡洛可视化</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">蒙特卡洛 · 面积比</p>
+      <h1>撒一把豆子，看到 π 渐渐出现</h1>
+      <p class="sub">
+        在正方形中画内切圆，随机撒豆。落在圆内的比例 × 4，即为 π 的近似。
+        撒得越多，越接近真实值。
+      </p>
+    </header>
+
+    <section class="panel">
+      <div class="controls">
+        <div class="field">
+          <label for="beanCount">撒豆数量</label>
+          <input id="beanCount" type="number" min="100" max="100000000" step="100" value="5000" />
+          <span class="hint">支持到 1e8（会更耗时）</span>
+        </div>
+
+        <div class="field">
+          <label for="speed">每帧撒豆</label>
+          <input id="speed" type="range" min="100" max="20000" step="100" value="2000" />
+          <div class="range-meta">
+            <span>慢</span>
+            <span id="speedValue">2000</span>
+            <span>快</span>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button id="toggle" class="primary">开始撒豆</button>
+          <button id="reset" class="ghost">重置</button>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <canvas id="board" width="520" height="520" aria-label="撒豆画布"></canvas>
+        <div class="legend">
+          <span class="dot inside"></span> 圆内
+          <span class="dot outside"></span> 圆外
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <p class="label">已撒</p>
+          <p class="value" id="statTotal">0</p>
+        </div>
+        <div class="stat">
+          <p class="label">圆内</p>
+          <p class="value" id="statInside">0</p>
+        </div>
+        <div class="stat">
+          <p class="label">π 估计</p>
+          <p class="value" id="statPi">-</p>
+        </div>
+        <div class="stat">
+          <p class="label">圆内比例</p>
+          <p class="value" id="statRatio">-</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
