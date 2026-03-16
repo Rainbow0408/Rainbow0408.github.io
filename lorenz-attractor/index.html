@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>洛伦兹吸引子</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>洛伦兹吸引子</h1>
+      <p>展示混沌轨迹，可调参数观察敏感依赖性。</p>
+    </header>
+    <canvas id="canvas" width="1000" height="600" aria-label="洛伦兹吸引子"></canvas>
+    <section class="controls">
+      <button id="reset" class="primary">重置</button>
+      <button id="toggle" class="ghost">暂停</button>
+      <label>sigma <span id="sigmaLabel">10</span><input id="sigma" type="range" min="1" max="30" step="0.5" value="10"></label>
+      <label>rho <span id="rhoLabel">28</span><input id="rho" type="range" min="5" max="50" step="0.5" value="28"></label>
+      <label>beta <span id="betaLabel">2.667</span><input id="beta" type="range" min="0.5" max="4" step="0.01" value="2.667"></label>
+      <p>改变参数可观察洛伦兹系统从可控到混沌过渡。</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

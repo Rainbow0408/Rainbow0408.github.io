@@ -1,0 +1,11 @@
+:root { --bg: #040a1e; --panel: #eaf0ff; --text: #caf0ff; }
+* { box-sizing:border-box; }
+body { margin:0; background: radial-gradient(circle at 20% 20%, #1a2650 0%, #040a1e 80%); font-family: 'Segoe UI', Tahoma, sans-serif; color:#fff; }
+.app { max-width: 1200px; margin:0 auto; padding:12px; }
+header h1 { margin:0; }
+canvas { width:100%; height:auto; display:block; border-radius: 12px; background:#020511; }
+.controls { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.controls button { border:none; border-radius:8px; padding:6px 12px; cursor:pointer; }
+.primary { background:#2a53ff; color:#fff; }
+.ghost { background:#ffffff33; color:#fff; }
+.controls input { margin-left:4px; }

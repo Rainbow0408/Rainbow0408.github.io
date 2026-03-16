@@ -1,0 +1,9 @@
+:root { --bg: #0b1a31; }
+* { box-sizing:border-box; }
+body { margin:0; background: radial-gradient(circle at 20% 20%, #1d304a 0%, #0b1a31 80%); font-family: 'Segoe UI', sans-serif; color:#fff; }
+.app { max-width:1200px; margin:0 auto; padding:14px; }
+canvas { width:100%; height:auto; display:block; border-radius:12px; background:#071221; }
+.controls { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.controls button { border:none; border-radius:7px; padding:6px 12px; cursor:pointer; }
+.primary { background:#1fa1ff; color:#fff; }
+.ghost { background:#ffffff33; color:#fff; }

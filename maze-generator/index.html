@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>迷宫生成器</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>迷宫生成器</h1>
+      <p>算法生成迷宫并可视化回溯查找路径。</p>
+      <p>可调整格子规模与生成速度，观察不同节点数量时路径难度变化。</p>
+    </header>
+    <canvas id="canvas" width="1000" height="600" aria-label="迷宫生成与寻路"></canvas>
+    <section class="controls">
+      <button id="generate" class="primary">生成迷宫</button>
+      <button id="solve" class="ghost">求解路径</button>
+      <label>宽度 <span id="gridWLabel">50</span><input id="gridW" type="range" min="20" max="80" value="50"></label>
+      <label>高度 <span id="gridHLabel">30</span><input id="gridH" type="range" min="15" max="50" value="30"></label>
+      <label>速度 <span id="speedLabel">10</span><input id="speed" type="range" min="2" max="40" value="10"></label>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

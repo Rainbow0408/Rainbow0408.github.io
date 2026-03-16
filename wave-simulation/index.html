@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>弹簧波动模拟</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>弹簧波动模拟</h1>
+      <p>网格弹簧系统实时模拟波传播与阻尼衰减。</p>
+    </header>
+    <canvas id="canvas" width="1000" height="600" aria-label="波动模拟"></canvas>
+    <section class="controls">
+      <button id="reset" class="primary">重置</button>
+      <button id="disturb" class="ghost">扰动中心</button>
+      <label>阻尼 <span id="dampingLabel">0.996</span><input id="damping" type="range" min="0.90" max="0.999" step="0.001" value="0.996"></label>
+      <label>冲击强度 <span id="impactLabel">150</span><input id="impact" type="range" min="20" max="400" step="10" value="150"></label>
+      <p>显示波动传播和耗散过程，点击“扰动中心”查看涟漪变化。</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

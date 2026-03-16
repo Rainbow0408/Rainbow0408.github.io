@@ -1,0 +1,10 @@
+:root { --bg: #070e3a; }
+* { box-sizing:border-box; }
+body { margin:0; background: radial-gradient(circle at 25% 25%, #233162 0%, #070e3a 80%); font-family: 'Segoe UI', sans-serif; color:#fff; }
+.app { max-width: 1200px; margin:0 auto; padding:12px; }
+canvas { width:100%; height:auto; display:block; border-radius:12px; background:#02061f; }
+header p { margin:4px 0 12px; }
+.controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.controls button { border:none; border-radius:8px; font-weight:600; padding:6px 12px; cursor:pointer; }
+.primary { background:#ff8f38; color:#fff; }
+.ghost { background:#ffffff33; color:#fff; }
