@@ -1,0 +1,52 @@
+[
+  {
+    "id": "boids-flocking",
+    "name": "Boids Flocking",
+    "path": "/models/boids-flocking/index.html"
+  },
+  {
+    "id": "fireworks-particles",
+    "name": "Fireworks Particles",
+    "path": "/models/fireworks-particles/index.html"
+  },
+  {
+    "id": "game-of-life",
+    "name": "Game Of Life",
+    "path": "/models/game-of-life/index.html"
+  },
+  {
+    "id": "lorenz-attractor",
+    "name": "Lorenz Attractor",
+    "path": "/models/lorenz-attractor/index.html"
+  },
+  {
+    "id": "maze-generator",
+    "name": "Maze Generator",
+    "path": "/models/maze-generator/index.html"
+  },
+  {
+    "id": "pathfinding-astar",
+    "name": "Pathfinding Astar",
+    "path": "/models/pathfinding-astar/index.html"
+  },
+  {
+    "id": "pi-beans",
+    "name": "Pi Beans",
+    "path": "/models/pi-beans/index.html"
+  },
+  {
+    "id": "sorting-visualizer",
+    "name": "Sorting Visualizer",
+    "path": "/models/sorting-visualizer/index.html"
+  },
+  {
+    "id": "wave-simulation",
+    "name": "Wave Simulation",
+    "path": "/models/wave-simulation/index.html"
+  },
+  {
+    "id": "wolf-sheep-grass",
+    "name": "Wolf Sheep Grass",
+    "path": "/models/wolf-sheep-grass/index.html"
+  }
+]
