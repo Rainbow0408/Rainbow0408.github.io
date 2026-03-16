@@ -4,7 +4,6 @@ def build_project_index():
     base_dir = '.'
     project_list = []
 
-    # 遍历并验证子目录
     for item_name in os.listdir(base_dir):
         item_path = os.path.join(base_dir, item_name)
         if not os.path.isdir(item_path) or item_name.startswith('.'):
@@ -15,8 +14,7 @@ def build_project_index():
 
     project_list.sort()
 
-    # 构建带原生 CSS 样式的 HTML 头部
-    # 利用 CSS Variables 实现极其丝滑的亮/暗色主题自适应
+    # 注入高级 CSS 样式：毛玻璃特效与流光动态背景
     html_head = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -25,61 +23,69 @@ def build_project_index():
     <title>可视化模型合集 | 我的个人网站</title>
     <style>
         :root {
-            --bg-color: #f4f7f6;
+            --bg-color: #e0c3fc;
             --text-color: #333333;
-            --card-bg: #ffffff;
-            --accent-color: #0366d6;
-            --border-color: rgba(0, 0, 0, 0.08);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --card-bg: rgba(255, 255, 255, 0.45); /* 毛玻璃透明度 */
+            --border-color: rgba(255, 255, 255, 0.6);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --hover-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 自动侦测操作系统的深色模式并切换配色 */
+        /* 自动侦测深色模式并切换赛博朋克深邃配色 */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-color: #121212;
-                --text-color: #e0e0e0;
-                --card-bg: #1e1e1e;
-                --accent-color: #58a6ff;
-                --border-color: rgba(255, 255, 255, 0.08);
-                --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-                --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+                --bg-color: #0f2027;
+                --text-color: #ffffff;
+                --card-bg: rgba(30, 30, 30, 0.5);
+                --border-color: rgba(255, 255, 255, 0.1);
+                --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+                --hover-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
             }
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            color: var(--text-color);
+            background: var(--bg-color);
+            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite; /* 触发流光背景 */
+            background-attachment: fixed;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-image: linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
             text-align: center;
             margin: 5rem 0 4rem 0;
             padding: 0 2rem;
+            z-index: 10;
         }
 
         header h1 {
-            font-size: 2.75rem;
+            font-size: 2.8rem;
             font-weight: 700;
             letter-spacing: -0.5px;
-            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        header p {
-            font-size: 1.15rem;
-            opacity: 0.7;
-            font-weight: 300;
-        }
-
-        /* 响应式网格容器 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -88,13 +94,15 @@ def build_project_index():
             max-width: 1200px;
             padding: 0 2rem 5rem 2rem;
             box-sizing: border-box;
+            z-index: 10;
         }
 
-        /* 卡片物理悬浮属性 */
         .card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px); /* 纯原生毛玻璃滤镜 */
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2.5rem 2rem;
             text-decoration: none;
             color: var(--text-color);
@@ -105,64 +113,60 @@ def build_project_index():
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        /* 悬浮交互：微距 Y 轴平移与阴影加深 */
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--hover-shadow);
-            border-color: var(--accent-color);
+            border-color: rgba(255, 255, 255, 0.8);
         }
 
         .card-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .card:hover .card-icon {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(8deg);
         }
-
+        
         .card-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: var(--accent-color);
             margin: 0;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>可视化模型合集</h1>
-        <p>基于底层逻辑与算法的数据驱动型前端展现</p>
+        <h1>我的可视化世界</h1>
+        <p>基于底层逻辑与算法的数据驱动型模型</p>
     </header>
     <div class="grid-container">"""
 
+    # CDN 直接注入看板娘，全自动加载，无需任何本地依赖
     html_tail = """
     </div>
+    
+    <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
 </body>
 </html>"""
 
-    # 动态组装各个项目的 DOM 结构
     html_cards = ""
     for folder_name, display_name in project_list:
-        # 默认赋予一个模块化的 Icon，保持严谨和极简
         html_cards += f"""
         <a href="./{folder_name}/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">{display_name}</h2>
         </a>"""
 
     full_html = html_head + html_cards + html_tail
 
-    # 覆盖生成新的 index.html
     with open('index.html', 'w', encoding='utf-8') as f:
         f.write(full_html)
 
-    print(f"[Success] 自动化扫描完成。共收录 {len(project_list)} 个模型项目，已生成最新的【极简卡片式】导航主页。")
+    print(f"[Success] 自动化扫描完成。共收录 {len(project_list)} 个模型项目，已生成最新的【毛玻璃+看板娘】炫酷主页。")
 
 if __name__ == '__main__':
     build_project_index()

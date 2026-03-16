@@ -6,61 +6,69 @@
     <title>可视化模型合集 | 我的个人网站</title>
     <style>
         :root {
-            --bg-color: #f4f7f6;
+            --bg-color: #e0c3fc;
             --text-color: #333333;
-            --card-bg: #ffffff;
-            --accent-color: #0366d6;
-            --border-color: rgba(0, 0, 0, 0.08);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --card-bg: rgba(255, 255, 255, 0.45); /* 毛玻璃透明度 */
+            --border-color: rgba(255, 255, 255, 0.6);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --hover-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 自动侦测操作系统的深色模式并切换配色 */
+        /* 自动侦测深色模式并切换赛博朋克深邃配色 */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-color: #121212;
-                --text-color: #e0e0e0;
-                --card-bg: #1e1e1e;
-                --accent-color: #58a6ff;
-                --border-color: rgba(255, 255, 255, 0.08);
-                --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-                --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+                --bg-color: #0f2027;
+                --text-color: #ffffff;
+                --card-bg: rgba(30, 30, 30, 0.5);
+                --border-color: rgba(255, 255, 255, 0.1);
+                --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+                --hover-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
             }
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            color: var(--text-color);
+            background: var(--bg-color);
+            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite; /* 触发流光背景 */
+            background-attachment: fixed;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-image: linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
             text-align: center;
             margin: 5rem 0 4rem 0;
             padding: 0 2rem;
+            z-index: 10;
         }
 
         header h1 {
-            font-size: 2.75rem;
+            font-size: 2.8rem;
             font-weight: 700;
             letter-spacing: -0.5px;
-            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        header p {
-            font-size: 1.15rem;
-            opacity: 0.7;
-            font-weight: 300;
-        }
-
-        /* 响应式网格容器 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -69,13 +77,15 @@
             max-width: 1200px;
             padding: 0 2rem 5rem 2rem;
             box-sizing: border-box;
+            z-index: 10;
         }
 
-        /* 卡片物理悬浮属性 */
         .card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px); /* 纯原生毛玻璃滤镜 */
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2.5rem 2rem;
             text-decoration: none;
             color: var(--text-color);
@@ -86,61 +96,59 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        /* 悬浮交互：微距 Y 轴平移与阴影加深 */
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--hover-shadow);
-            border-color: var(--accent-color);
+            border-color: rgba(255, 255, 255, 0.8);
         }
 
         .card-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .card:hover .card-icon {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(8deg);
         }
-
+        
         .card-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: var(--accent-color);
             margin: 0;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>可视化模型合集</h1>
-        <p>基于底层逻辑与算法的数据驱动型前端展现</p>
+        <h1>我的可视化世界</h1>
+        <p>基于底层逻辑与算法的数据驱动型模型</p>
     </header>
     <div class="grid-container">
         <a href="./game-of-life/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">Game Of Life</h2>
         </a>
         <a href="./pathfinding-astar/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">Pathfinding Astar</h2>
         </a>
         <a href="./pi-beans/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">Pi Beans</h2>
         </a>
         <a href="./sorting-visualizer/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">Sorting Visualizer</h2>
         </a>
         <a href="./wolf-sheep-grass/index.html" class="card">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">✨</div>
             <h2 class="card-title">Wolf Sheep Grass</h2>
         </a>
     </div>
+    
+    <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
 </body>
 </html>
