@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>可视化模型合集 | 我的个人网站</title>
+    <title>可视化模型与底层架构 | 我的个人网站</title>
     <style>
         :root {
             --bg-color: #e0c3fc;
             --text-color: #333333;
-            --card-bg: rgba(255, 255, 255, 0.45); /* 毛玻璃透明度 */
+            --card-bg: rgba(255, 255, 255, 0.45);
             --border-color: rgba(255, 255, 255, 0.6);
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             --hover-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 自动侦测深色模式并切换赛博朋克深邃配色 */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #0f2027;
@@ -39,7 +38,7 @@
             background: var(--bg-color);
             background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
             background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite; /* 触发流光背景 */
+            animation: gradientBG 15s ease infinite;
             background-attachment: fixed;
         }
 
@@ -55,18 +54,87 @@
             100% { background-position: 0% 50%; }
         }
 
-        header {
-            text-align: center;
-            margin: 5rem 0 4rem 0;
-            padding: 0 2rem;
-            z-index: 10;
+        /* 核心逻辑：平滑过渡入口动画 */
+        .animate-item {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
 
-        header h1 {
-            font-size: 2.8rem;
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 个人信息面板样式 */
+        .profile-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem 4rem;
+            margin-top: 5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 80%;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .skill-tags {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        header {
+            text-align: center;
+            margin: 4rem 0 3rem 0;
+            padding: 0 2rem;
+        }
+
+        header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
         }
 
         .grid-container {
@@ -77,12 +145,11 @@
             max-width: 1200px;
             padding: 0 2rem 5rem 2rem;
             box-sizing: border-box;
-            z-index: 10;
         }
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px); /* 纯原生毛玻璃滤镜 */
+            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
@@ -103,16 +170,6 @@
             box-shadow: var(--hover-shadow);
             border-color: rgba(255, 255, 255, 0.8);
         }
-
-        .card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.2) rotate(8deg);
-        }
         
         .card-title {
             font-size: 1.3rem;
@@ -122,30 +179,36 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>我的可视化世界</h1>
-        <p>基于底层逻辑与算法的数据驱动型模型</p>
+    <div class="profile-section animate-item delay-1">
+        <img src="https://avatars.githubusercontent.com/u/9919?s=280&v=4" alt="Avatar" class="avatar">
+        <h1 class="profile-name">Rainbow0408</h1>
+        <p class="profile-bio">专注于底层系统、C/C++ 与人工智能架构的开发者。极度理性的数据驱动型学习者。</p>
+        <div class="skill-tags">
+            <span class="skill-tag">C / C++</span>
+            <span class="skill-tag">系统底层架构</span>
+            <span class="skill-tag">算法可视化</span>
+        </div>
+    </div>
+
+    <header class="animate-item delay-2">
+        <h2>我的可视化模型</h2>
     </header>
-    <div class="grid-container">
+
+    <div class="grid-container animate-item delay-3">
         <a href="./game-of-life/index.html" class="card">
-            <div class="card-icon">✨</div>
-            <h2 class="card-title">Game Of Life</h2>
+            <h2 class="card-title">✨ Game Of Life</h2>
         </a>
         <a href="./pathfinding-astar/index.html" class="card">
-            <div class="card-icon">✨</div>
-            <h2 class="card-title">Pathfinding Astar</h2>
+            <h2 class="card-title">✨ Pathfinding Astar</h2>
         </a>
         <a href="./pi-beans/index.html" class="card">
-            <div class="card-icon">✨</div>
-            <h2 class="card-title">Pi Beans</h2>
+            <h2 class="card-title">✨ Pi Beans</h2>
         </a>
         <a href="./sorting-visualizer/index.html" class="card">
-            <div class="card-icon">✨</div>
-            <h2 class="card-title">Sorting Visualizer</h2>
+            <h2 class="card-title">✨ Sorting Visualizer</h2>
         </a>
         <a href="./wolf-sheep-grass/index.html" class="card">
-            <div class="card-icon">✨</div>
-            <h2 class="card-title">Wolf Sheep Grass</h2>
+            <h2 class="card-title">✨ Wolf Sheep Grass</h2>
         </a>
     </div>
     
