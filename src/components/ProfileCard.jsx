@@ -31,8 +31,8 @@ export function ProfileCard() {
       <TiltCard className={cn(
         "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 cursor-pointer",
         "flex flex-col items-center justify-center p-8 lg:p-12",
-        "bg-white/45 dark:bg-[#1e1e1e]/50 backdrop-blur-2xl",
-        "border border-white/60 dark:border-white/10 rounded-3xl z-10",
+        "bg-white/45 dark:bg-[#1e1e1e]/50 backdrop-blur-sm md:backdrop-blur-2xl",
+        "border border-white/60 dark:border-white/10 rounded-3xl z-10 will-change-transform",
         "shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
       )}>
         <motion.div layoutId="profile-container" className="w-full h-full flex flex-col items-center justify-center" onClick={toggleExpand}>
@@ -51,9 +51,7 @@ export function ProfileCard() {
           <motion.p className="text-md md:text-lg text-gray-800 dark:text-gray-300 font-bold h-8 flex items-center">
             {text}<span className="animate-pulse inline-block w-2 bg-indigo-500 h-5 ml-1"></span>
           </motion.p>
-          <div className="absolute top-6 left-6 text-xs font-bold text-indigo-700 dark:text-indigo-400 border border-indigo-500/50 bg-white/20 dark:bg-black/20 rounded-full px-4 py-1.5 tracking-wider backdrop-blur-md">
-            🚀 核心架构重构中
-          </div>
+
           <div className="absolute top-6 right-6 flex items-center justify-center w-8 h-8 rounded-full bg-black/5 text-black/50 hover:bg-black/10 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
           </div>
@@ -72,7 +70,7 @@ export function ProfileCard() {
             {/* Content panel: solid background, z-10 above overlay */}
             <motion.div 
               layoutId="profile-container"
-              className="relative z-10 w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#1a1a2e] border border-white/30 dark:border-white/10 rounded-3xl p-8 lg:p-12 shadow-2xl custom-scrollbar flex flex-col focus:outline-none"
+              className="relative z-10 w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-[#1a1a2e]/95 backdrop-blur-md md:backdrop-blur-2xl border border-white/30 dark:border-white/10 rounded-3xl p-8 lg:p-12 shadow-2xl custom-scrollbar flex flex-col focus:outline-none will-change-transform"
             >
               <button 
                 onClick={toggleExpand}

@@ -80,7 +80,7 @@ export function FootprintMap({ className }) {
       className={cn("w-full relative z-20 h-full", className)}
     >
       <div className={cn(
-        "p-4 sm:p-6 h-full rounded-3xl bg-white/20 dark:bg-black/20 backdrop-blur-xl",
+        "p-4 sm:p-6 h-full rounded-3xl bg-white/20 dark:bg-black/20 backdrop-blur-sm md:backdrop-blur-xl will-change-transform",
         "border border-white/50 dark:border-white/10 shadow-xl relative overflow-visible flex flex-col"
       )}>
         <div className="flex justify-between items-center mb-2 sm:mb-4 relative z-30">

@@ -12,8 +12,8 @@ export function ProfileHeader() {
       transition={{ delay: 1, duration: 0.8, type: "spring" }}
       className={cn(
         "w-full max-w-5xl mx-auto mt-8 relative rounded-3xl z-40",
-        "bg-white/40 dark:bg-black/40 backdrop-blur-2xl border border-white/50 dark:border-white/10",
-        "shadow-2xl flex flex-col sm:flex-row items-center justify-between p-6 sm:px-10 overflow-hidden"
+        "bg-white/40 dark:bg-black/40 backdrop-blur-sm md:backdrop-blur-2xl border border-white/50 dark:border-white/10",
+        "shadow-2xl flex flex-col sm:flex-row items-center justify-between p-6 sm:px-10 overflow-hidden will-change-transform"
       )}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-blue-500/10 dark:to-cyan-500/10" />

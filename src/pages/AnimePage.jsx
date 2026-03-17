@@ -46,8 +46,8 @@ export function AnimePage() {
 
         <div className={cn(
           "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6",
-          "p-6 rounded-3xl bg-white/10 dark:bg-black/10 backdrop-blur-2xl",
-          "border border-white/30 dark:border-white/5 shadow-2xl"
+          "p-6 rounded-3xl bg-white/10 dark:bg-black/10 backdrop-blur-sm md:backdrop-blur-2xl",
+          "border border-white/30 dark:border-white/5 shadow-2xl will-change-transform"
         )}>
           {animeGallery.map((item, idx) => (
             <motion.div
@@ -62,7 +62,9 @@ export function AnimePage() {
                 <img 
                   src={`${import.meta.env.BASE_URL}${item.imageUrl.replace(/^\//, '')}`} 
                   alt={`Anime Image ${item.id}`} 
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 bg-white/5 aspect-auto min-h-[200px]"
                   style={{ imageRendering: "high-quality" }}
                 />
               </div>

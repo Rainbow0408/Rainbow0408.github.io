@@ -107,7 +107,7 @@ export function MapPage() {
         </div>
 
         <div className={cn(
-          "flex-grow p-4 sm:p-6 rounded-3xl bg-white/20 backdrop-blur-xl",
+          "flex-grow p-4 sm:p-6 rounded-3xl bg-white/20 backdrop-blur-sm md:backdrop-blur-xl will-change-transform",
           "border border-white/50 shadow-xl relative overflow-visible flex flex-col"
         )}>
           {/* Map Container */}
@@ -209,8 +209,8 @@ export function MapPage() {
                   )}
                 >
                   {activeNode.image && (
-                    <div className="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden mb-3 isolate bg-gray-200">
-                      <img src={`${import.meta.env.BASE_URL}${activeNode.image.replace(/^\//, '')}`} alt={activeNode.city} className="w-full h-full object-cover" />
+                    <div className="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden mb-3 isolate bg-gray-200 aspect-video">
+                      <img src={`${import.meta.env.BASE_URL}${activeNode.image.replace(/^\//, '')}`} alt={activeNode.city} decoding="async" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <span className="absolute bottom-2 left-3 text-white font-bold text-sm tracking-widest drop-shadow-md">{activeNode.city}</span>
                     </div>

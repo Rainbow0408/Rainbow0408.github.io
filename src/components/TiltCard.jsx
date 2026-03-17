@@ -8,7 +8,7 @@ export function TiltCard({ children, className = "", style = {} }) {
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
 
   const handleMouseMove = (e) => {
-    if (!ref.current) return;
+    if (!ref.current || window.matchMedia('(hover: none)').matches) return;
     const rect = ref.current.getBoundingClientRect();
     const localX = e.clientX - rect.left;
     const localY = e.clientY - rect.top;

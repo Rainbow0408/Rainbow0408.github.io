@@ -4,11 +4,19 @@ import { motion, useSpring } from 'framer-motion';
 export function PhysicsCursor() {
   const [isHovering, setIsHovering] = useState(false);
   
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
   // Smooth springs for cursor position
   const cursorX = useSpring(-100, { stiffness: 600, damping: 30 });
   const cursorY = useSpring(-100, { stiffness: 600, damping: 30 });
 
   useEffect(() => {
+    // Detect touch device
+    const touchMediaQuery = window.matchMedia('(hover: none)');
+    setIsTouchDevice(touchMediaQuery.matches);
+
+    if (touchMediaQuery.matches) return;
+
     const updateMouseInfo = (e) => {
       const { clientX: x, clientY: y } = e;
       cursorX.set(x);
@@ -41,7 +49,9 @@ export function PhysicsCursor() {
       window.removeEventListener('mouseover', handleMouseOver);
       document.body.style.cursor = 'auto';
     };
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, isTouchDevice]);
+
+  if (isTouchDevice) return null;
 
   return (
     <>

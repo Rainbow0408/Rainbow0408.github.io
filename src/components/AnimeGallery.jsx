@@ -20,7 +20,7 @@ export function AnimeGallery() {
       className="w-full h-full relative"
     >
       <div className={cn(
-        "p-6 rounded-3xl bg-white/20 dark:bg-black/20 backdrop-blur-xl h-full flex flex-col",
+        "p-6 rounded-3xl bg-white/20 dark:bg-black/20 backdrop-blur-sm md:backdrop-blur-xl h-full flex flex-col will-change-transform",
         "border border-white/50 dark:border-white/10 shadow-xl"
       )}>
         <div className="flex justify-between items-center mb-4">
@@ -36,7 +36,9 @@ export function AnimeGallery() {
           <img 
             src={`${import.meta.env.BASE_URL}${cover.imageUrl.replace(/^\//, '')}`} 
             alt={cover.title} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-white/5 aspect-[4/3] sm:aspect-auto" 
             style={{ imageRendering: "high-quality" }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
