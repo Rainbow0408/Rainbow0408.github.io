@@ -60,7 +60,7 @@ export function AnimePage() {
             >
               <div className="block focus:outline-none focus:ring-4 focus:ring-indigo-500/50 rounded-2xl">
                 <img 
-                  src={item.imageUrl} 
+                  src={`${import.meta.env.BASE_URL}${item.imageUrl.replace(/^\//, '')}`} 
                   alt={`Anime Image ${item.id}`} 
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   style={{ imageRendering: "high-quality" }}
@@ -102,7 +102,7 @@ export function AnimePage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={selectedImage}
+              src={`${import.meta.env.BASE_URL}${selectedImage.replace(/^\//, '')}`}
               alt="Enlarged view"
               className="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/20"
               onClick={(e) => e.stopPropagation()} // Prevent clicking image from closing the modal

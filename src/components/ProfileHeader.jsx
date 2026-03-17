@@ -21,7 +21,7 @@ export function ProfileHeader() {
       <div className="relative flex items-center space-x-6 z-20 w-full">
         <div className="relative isolate">
           <motion.img 
-            src={avatar} 
+            src={`${import.meta.env.BASE_URL}${avatar.replace(/^\//, '')}`} 
             alt={`${name} Avatar`} 
             className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-white/80 dark:border-white/30 shadow-[0_0_15px_rgba(0,0,0,0.1)] object-cover relative z-30 transform-gpu"
             style={{ imageRendering: "high-quality" }}

@@ -13,7 +13,7 @@ export function MapPage() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    fetch('/china-cities.json')
+    fetch(`${import.meta.env.BASE_URL}china-cities.json`)
       .then(res => res.json())
       .then(data => setChinaGeoData(data))
       .catch(err => console.error("Error loading map data:", err));
@@ -210,7 +210,7 @@ export function MapPage() {
                 >
                   {activeNode.image && (
                     <div className="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden mb-3 isolate bg-gray-200">
-                      <img src={activeNode.image} alt={activeNode.city} className="w-full h-full object-cover" />
+                      <img src={`${import.meta.env.BASE_URL}${activeNode.image.replace(/^\//, '')}`} alt={activeNode.city} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <span className="absolute bottom-2 left-3 text-white font-bold text-sm tracking-widest drop-shadow-md">{activeNode.city}</span>
                     </div>

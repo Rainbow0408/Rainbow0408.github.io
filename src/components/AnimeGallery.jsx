@@ -34,7 +34,7 @@ export function AnimeGallery() {
         
         <Link to="/anime" className="block relative w-full flex-1 min-h-[250px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group isolate">
           <img 
-            src={cover.imageUrl} 
+            src={`${import.meta.env.BASE_URL}${cover.imageUrl.replace(/^\//, '')}`} 
             alt={cover.title} 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
             style={{ imageRendering: "high-quality" }}

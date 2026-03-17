@@ -42,7 +42,7 @@ function DynamicBackground() {
           muted
           playsInline
         >
-          <source src={siteData.background.video} type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}${siteData.background.video.replace(/^\//, '')}`} type="video/mp4" />
         </video>
       )}
     </>
@@ -69,7 +69,7 @@ export default function App() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    fetch('/model_registry.json')
+    fetch(`${import.meta.env.BASE_URL}model_registry.json`)
       .then(res => res.json())
       .then(data => setModels(data))
       .catch(err => console.error("Error loading models:", err));

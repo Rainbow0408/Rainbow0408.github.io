@@ -38,7 +38,7 @@ export function ProfileCard() {
         <motion.div layoutId="profile-container" className="w-full h-full flex flex-col items-center justify-center" onClick={toggleExpand}>
           <motion.img 
             layoutId="profile-avatar"
-            src={siteData.profile.avatar} 
+            src={`${import.meta.env.BASE_URL}${siteData.profile.avatar.replace(/^\//, '')}`} 
             alt="Avatar" 
             className="w-32 h-32 md:w-36 md:h-36 rounded-full border-[3px] border-white/60 shadow-xl object-cover mb-4"
           />
@@ -86,7 +86,7 @@ export function ProfileCard() {
                 <div className="col-span-1 flex flex-col items-center gap-6 p-8 bg-white/20 dark:bg-black/20 rounded-3xl border border-white/20 shadow-inner">
                   <motion.img 
                     layoutId="profile-avatar"
-                    src={siteData.profile.avatar} 
+                    src={`${import.meta.env.BASE_URL}${siteData.profile.avatar.replace(/^\//, '')}`} 
                     className="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-[6px] border-indigo-500/30 shadow-[0_0_40px_rgba(99,102,241,0.4)] object-cover"
                   />
                   <motion.h1 

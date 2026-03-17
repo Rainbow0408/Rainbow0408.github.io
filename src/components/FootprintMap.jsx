@@ -11,7 +11,7 @@ export function FootprintMap({ className }) {
   const [chinaGeoData, setChinaGeoData] = useState(null);
 
   useEffect(() => {
-    fetch('/china-cities.json')
+    fetch(`${import.meta.env.BASE_URL}china-cities.json`)
       .then(res => res.json())
       .then(data => setChinaGeoData(data))
       .catch(err => console.error("Error loading map data:", err));
