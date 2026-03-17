@@ -17,11 +17,11 @@ export function AnimeGallery() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.3, type: "spring", bounce: 0.4 }}
-      className="w-full max-w-5xl mx-auto mt-8 px-4 sm:px-6 relative z-30"
+      className="w-full h-full relative"
     >
       <div className={cn(
-        "p-6 rounded-3xl bg-white/20 backdrop-blur-xl",
-        "border border-white/50 shadow-xl"
+        "p-6 rounded-3xl bg-white/20 dark:bg-black/20 backdrop-blur-xl h-full flex flex-col",
+        "border border-white/50 dark:border-white/10 shadow-xl"
       )}>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
@@ -32,7 +32,7 @@ export function AnimeGallery() {
           </Link>
         </div>
         
-        <Link to="/anime" className="block relative w-full aspect-[21/9] sm:aspect-[3/1] rounded-2xl overflow-hidden cursor-pointer shadow-lg group isolate">
+        <Link to="/anime" className="block relative w-full flex-1 min-h-[250px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group isolate">
           <img 
             src={cover.imageUrl} 
             alt={cover.title} 

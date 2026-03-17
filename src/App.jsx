@@ -9,6 +9,10 @@ import { MapPage } from './pages/MapPage.jsx';
 import { siteData } from './config/siteData.js';
 import { MusicPlayer } from './components/MusicPlayer.jsx';
 
+import { CompilerLoading } from './components/CompilerLoading.jsx';
+import { PhysicsCursor } from './components/PhysicsCursor.jsx';
+import { FocusProvider } from './components/FocusContext.jsx';
+
 function DynamicBackground() {
   useEffect(() => {
     const style = document.createElement('style');
@@ -18,7 +22,7 @@ function DynamicBackground() {
         --bg-dark: ${siteData.background.darkImage ? `url(${siteData.background.darkImage})` : 'none'};
       }
       body {
-        background-image: var(--bg-light), linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        ${!siteData.background.video ? `background-image: var(--bg-light), linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);` : 'background-color: transparent;'}
         background-size: cover, 200% 200%;
         background-position: center, 0% 0%;
         background-attachment: fixed, fixed;
@@ -27,7 +31,22 @@ function DynamicBackground() {
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
   }, []);
-  return null;
+  
+  return (
+    <>
+      {siteData.background.video && (
+        <video
+          className="fixed inset-0 w-full h-full object-cover -z-50 pointer-events-none"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={siteData.background.video} type="video/mp4" />
+        </video>
+      )}
+    </>
+  );
 }
 
 function AnimatedRoutes({ models }) {
@@ -47,6 +66,7 @@ function AnimatedRoutes({ models }) {
 
 export default function App() {
   const [models, setModels] = useState([]);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     fetch('/model_registry.json')
@@ -56,12 +76,19 @@ export default function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen text-gray-900 selection:bg-indigo-500/30">
-        <DynamicBackground />
-        <MusicPlayer />
-        <AnimatedRoutes models={models} />
-      </div>
-    </Router>
+    <FocusProvider>
+      <Router>
+        <PhysicsCursor />
+        <AnimatePresence>
+          {!isReady && <CompilerLoading key="loading" onComplete={() => setIsReady(true)} />}
+        </AnimatePresence>
+        
+        <div className={`min-h-screen text-gray-900 selection:bg-indigo-500/30 transition-opacity duration-1000 ${isReady ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+          <DynamicBackground />
+          <MusicPlayer />
+          <AnimatedRoutes models={models} />
+        </div>
+      </Router>
+    </FocusProvider>
   );
 }

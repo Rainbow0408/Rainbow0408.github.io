@@ -36,10 +36,41 @@ export function MapPage() {
   // Extract features (cities/provinces depending on the geojson)
   const features = chinaGeoData?.features || [];
 
-  // Match footprint cities to geo features
+  // Municipality districts mapping
+  const municipalities = {
+    "北京": ["东城区", "西城区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县"],
+    "上海": ["黄浦区", "徐汇区", "长宁区", "静安区", "普陀区", "虹口区", "杨浦区", "闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "奉贤区", "崇明县"],
+    "重庆": ["渝中区", "大渡口区", "江北区", "沙坪坝区", "九龙坡区", "南岸区", "北碚区", "万盛区", "双桥区", "渝北区", "巴南区", "长寿区", "江津区", "合川区", "永川区", "南川区", "綦江县", "大足县", "潼南县", "铜梁县", "璧山县", "荣昌县", "梁平县", "城口县", "丰都县", "垫江县", "武隆县", "忠县", "开县", "云阳县", "奉节县", "巫山县", "巫溪县", "黔江区", "武隆区", "开州区", "梁平区", "武隆县", "石柱土家族自治县", "秀山土家族苗族自治县", "酉阳土家族苗族自治县", "彭水苗族土家族自治县"]
+  };
+
+  // City-to-province mapping for province-level entries
+  const cityToProvince = {
+    "哈尔滨": "黑龙江", "青岛": "山东", "日照": "山东",
+    "盐城": "江苏", "徐州": "江苏", "扬州": "江苏", "苏州": "江苏", "南京": "江苏",
+    "长沙": "湖南", "武汉": "湖北", "西安": "陕西", "桂林": "广西",
+    "昆明": "云南", "大理": "云南", "丽江": "云南",
+    "厦门": "福建", "福州": "福建",
+    "九江": "江西", "恩施": "湖北",
+    "成都": "四川", "宜昌": "湖北", "荆州": "湖北"
+  };
+
   const getFootprintData = (featureName) => {
     if (!featureName) return null;
-    return footprintMap.find(fp => featureName.includes(fp.city) || fp.city.includes(featureName));
+    
+    // 1. Check if it's a district of a municipality
+    for (const [muni, districts] of Object.entries(municipalities)) {
+      if (districts.includes(featureName)) {
+        return footprintMap.find(fp => fp.city === muni);
+      }
+    }
+
+    // 2. Direct match
+    const direct = footprintMap.find(fp => featureName.includes(fp.city) || fp.city.includes(featureName.replace(/省|市|自治区|壮族|维吾尔|回族/g, '')));
+    if (direct) return direct;
+
+    // 3. Province match
+    const cleanName = featureName.replace(/省|市|自治区|壮族|维吾尔|回族/g, '');
+    return footprintMap.find(fp => cityToProvince[fp.city] === cleanName);
   };
 
   if (!footprintMap || footprintMap.length === 0 || !chinaGeoData) {
@@ -119,8 +150,15 @@ export function MapPage() {
               {/* Draw glowing dots at centroids of visited cities */}
               <g className="pointer-events-none">
                 {features.map((feature, i) => {
-                  const fpData = getFootprintData(feature.properties.name);
+                  const featureName = feature.properties.name;
+                  const fpData = getFootprintData(featureName);
                   if (fpData) {
+                    // For municipalities, only show one dot (at a specific "center" district)
+                    const isMuni = Object.keys(municipalities).includes(fpData.city);
+                    const isCenterDistrict = featureName === "渝中区" || featureName === "东城区" || featureName === "黄浦区";
+                    
+                    if (isMuni && !isCenterDistrict) return null;
+
                     const [cx, cy] = pathGenerator.centroid(feature);
                     if (isNaN(cx) || isNaN(cy)) return null;
                     
