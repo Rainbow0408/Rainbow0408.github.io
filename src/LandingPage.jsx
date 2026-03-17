@@ -1,4 +1,3 @@
-import { EntranceBlur } from "./components/EntranceBlur.jsx";
 import { ProfileCard } from "./components/ProfileCard.jsx";
 import { AnimeGallery } from "./components/AnimeGallery.jsx";
 import { FootprintMap } from "./components/FootprintMap.jsx";
@@ -18,7 +17,7 @@ export function LandingPage() {
       transition={{ duration: 0.5 }}
       className="relative w-full min-h-screen pb-24"
     >
-      <EntranceBlur />
+
       
       <div className="pt-12 px-4 sm:px-6 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-6 items-stretch relative z-30">
         <div className="w-full lg:w-1/3 flex">
