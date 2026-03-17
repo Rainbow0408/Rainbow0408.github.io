@@ -15,7 +15,7 @@ export function ModelViewer({ models }) {
     if (model) {
       setModelUrl(model.path);
     } else if (models.length > 0) {
-      navigate('/');
+      navigate('/models');
     } else {
       setModelUrl(`/models/${id}/index.html`);
     }
@@ -28,13 +28,14 @@ export function ModelViewer({ models }) {
         "fixed inset-0 z-40 bg-white dark:bg-[#0f2027]",
         "flex flex-col overflow-hidden"
       )}
-      initial={{ borderRadius: "24px" }}
-      animate={{ borderRadius: "0px" }}
+      initial={{ opacity: 0, x: -40, scale: 0.95, borderRadius: "24px" }}
+      animate={{ opacity: 1, x: 0, scale: 1, borderRadius: "0px" }}
       exit={{ borderRadius: "24px", opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
       <button 
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/models')}
+        title="关闭模型"
         className="absolute top-6 right-6 z-50 p-3 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-black/10 dark:border-white/10 shadow-lg hover:scale-110 hover:bg-white/30 dark:hover:bg-white/10 transition-all text-gray-800 dark:text-gray-200"
       >
         <X className="w-6 h-6" />
@@ -48,9 +49,9 @@ export function ModelViewer({ models }) {
 
       {modelUrl && (
         <motion.iframe
-          initial={{ opacity: 0 }}
-          animate={{ opacity: iframeLoaded ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           src={modelUrl}
           className="w-full h-full border-0"
           title={`Model ${id}`}

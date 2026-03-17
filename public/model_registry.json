@@ -1,0 +1,72 @@
+[
+  {
+    "id": "boids-flocking",
+    "name": "Boids 群体模拟",
+    "description": "基于经典力学规则的鸟群/鱼群集群行为演算",
+    "path": "/models/boids-flocking/index.html",
+    "icon": "Bird"
+  },
+  {
+    "id": "fireworks-particles",
+    "name": "烟花粒子系统",
+    "description": "基于重力与物理引擎的动态粒子喷发与消散试验",
+    "path": "/models/fireworks-particles/index.html",
+    "icon": "Sparkles"
+  },
+  {
+    "id": "game-of-life",
+    "name": "康威生命游戏",
+    "description": "经典的细胞自动机，探索混沌边缘的秩序生成",
+    "path": "/models/game-of-life/index.html",
+    "icon": "Grid"
+  },
+  {
+    "id": "lorenz-attractor",
+    "name": "洛伦兹吸引子",
+    "description": "三维空间中的混沌系统轨迹追踪可视化",
+    "path": "/models/lorenz-attractor/index.html",
+    "icon": "Activity"
+  },
+  {
+    "id": "maze-generator",
+    "name": "随机迷宫生成",
+    "description": "深度优先搜索驱动的地牢/迷宫地形自动构建",
+    "path": "/models/maze-generator/index.html",
+    "icon": "Map"
+  },
+  {
+    "id": "pathfinding-astar",
+    "name": "A* 寻路算法",
+    "description": "启发式网格路径规划的最短路线动态演算",
+    "path": "/models/pathfinding-astar/index.html",
+    "icon": "Route"
+  },
+  {
+    "id": "pi-beans",
+    "name": "蒙特卡洛投针",
+    "description": "高并发随机撒豆法估算圆周率 π 的数学实验",
+    "path": "/models/pi-beans/index.html",
+    "icon": "Circle"
+  },
+  {
+    "id": "sorting-visualizer",
+    "name": "排序算法可视化",
+    "description": "经典数据结构排序逻辑（冒泡、快排等）的视觉追踪",
+    "path": "/models/sorting-visualizer/index.html",
+    "icon": "BarChart3"
+  },
+  {
+    "id": "wave-simulation",
+    "name": "波动物理学模拟",
+    "description": "二维流体与能量波纹扩散的流体力学交互",
+    "path": "/models/wave-simulation/index.html",
+    "icon": "Waves"
+  },
+  {
+    "id": "wolf-sheep-grass",
+    "name": "生态平衡演算",
+    "description": "捕食者与猎物的种群动力学（Lotka-Volterra）模拟",
+    "path": "/models/wolf-sheep-grass/index.html",
+    "icon": "Leaf"
+  }
+]

@@ -19,20 +19,13 @@
   body {
     color: #1f2937;
     background-color: #f3f4f6;
-    transition-property: color, background-color;
+    transition-property: color, background-color, background-image;
     transition-duration: 500ms;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    /* Fallback gradients if no images are provided, animation is handled here */
     background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-    background-size: 200% 200%;
-    animation: gradientBG 15s ease infinite;
-    background-attachment: fixed;
-  }
-
-  .dark body {
-    color: #ffffff;
-    background: linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
     background-size: 200% 200%;
     animation: gradientBG 15s ease infinite;
     background-attachment: fixed;

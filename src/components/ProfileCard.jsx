@@ -60,9 +60,9 @@ export function ProfileCard() {
         src="/avatar.jpg" 
         alt="Avatar" 
         className="w-32 h-32 md:w-36 md:h-36 rounded-full border-[3px] border-white/60 dark:border-white/20 shadow-xl object-cover mb-4 mt-8 md:mt-0"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6, type: "spring" }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, type: "spring" }}
       />
       
       <motion.h1 
