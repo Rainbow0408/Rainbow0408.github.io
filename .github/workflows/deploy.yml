@@ -23,27 +23,27 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
-      
+
       - name: 部署 Node.js 环境
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-          
+
       - name: 安装依赖
-        run: npm ci
-        
+        run: npm install --legacy-peer-deps
+
       - name: 编译打包前端工程
         run: npm run build
-        
+
       - name: 配置 GitHub Pages
         uses: actions/configure-pages@v4
-        
+
       - name: 上传构建产物 (dist)
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-          
+
       - name: 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
