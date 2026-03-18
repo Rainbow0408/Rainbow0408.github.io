@@ -4,6 +4,7 @@ import { siteData } from "../config/siteData";
 import { cn } from "../utils";
 import { Link } from "react-router-dom";
 import { ArrowLeft, X } from "lucide-react";
+import { LazyImage } from "../components/LazyImage.jsx";
 
 export function AnimePage() {
   const { animeGallery } = siteData;
@@ -59,13 +60,10 @@ export function AnimePage() {
               onClick={() => setSelectedImage(item.imageUrl)}
             >
               <div className="block focus:outline-none focus:ring-4 focus:ring-indigo-500/50 rounded-2xl">
-                <img 
+                <LazyImage 
                   src={`${import.meta.env.BASE_URL}${item.imageUrl.replace(/^\//, '')}`} 
                   alt={`Anime Image ${item.id}`} 
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 bg-white/5 aspect-auto min-h-[200px]"
-                  style={{ imageRendering: "high-quality" }}
+                  className="w-full h-auto transition-transform duration-700 group-hover:scale-105 bg-white/5 aspect-auto min-h-[200px]"
                 />
               </div>
             </motion.div>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>曼德博分形</title>
+  <style>body{margin:0;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh}canvas{cursor:crosshair}h1{margin:0 0 10px 0;font-size:1.5rem}</style>
+</head>
+<body>
+  <h1>曼德博分形 (Mandelbrot)</h1>
+  <canvas id="canvas" width="600" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillText('分形渲染引擎初始化...', 250, 300);
+  </script>
+</body>
+</html>

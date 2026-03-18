@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>傅里叶级数</title>
+  <style>body{margin:0;background:#0f172a;color:#94a3b8;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh}canvas{border:1px solid #1e293b}</style>
+</head>
+<body>
+  <h1>傅里叶级数合成 (Fourier)</h1>
+  <canvas id="canvas" width="800" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillText('谐波叠加计算中...', 350, 200);
+  </script>
+</body>
+</html>

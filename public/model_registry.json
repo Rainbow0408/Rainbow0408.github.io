@@ -1,72 +1,98 @@
 [
   {
-    "id": "boids-flocking",
-    "name": "Boids 群体模拟",
-    "description": "基于经典力学规则的鸟群/鱼群集群行为演算",
-    "path": "/models/boids-flocking/index.html",
-    "icon": "Bird"
-  },
-  {
-    "id": "fireworks-particles",
-    "name": "烟花粒子系统",
-    "description": "基于重力与物理引擎的动态粒子喷发与消散试验",
-    "path": "/models/fireworks-particles/index.html",
-    "icon": "Sparkles"
-  },
-  {
-    "id": "game-of-life",
-    "name": "康威生命游戏",
-    "description": "经典的细胞自动机，探索混沌边缘的秩序生成",
-    "path": "/models/game-of-life/index.html",
-    "icon": "Grid"
-  },
-  {
-    "id": "lorenz-attractor",
-    "name": "洛伦兹吸引子",
-    "description": "三维空间中的混沌系统轨迹追踪可视化",
-    "path": "/models/lorenz-attractor/index.html",
-    "icon": "Activity"
-  },
-  {
-    "id": "maze-generator",
-    "name": "随机迷宫生成",
-    "description": "深度优先搜索驱动的地牢/迷宫地形自动构建",
-    "path": "/models/maze-generator/index.html",
-    "icon": "Map"
+    "id": "sorting-visualizer",
+    "name": "排序算法可视化",
+    "category": "algorithms",
+    "description": "十大经典排序算法的视觉追踪与动态演示",
+    "path": "/models/sorting-visualizer/index.html",
+    "icon": "BarChart3"
   },
   {
     "id": "pathfinding-astar",
     "name": "A* 寻路算法",
+    "category": "algorithms",
     "description": "启发式网格路径规划的最短路线动态演算",
     "path": "/models/pathfinding-astar/index.html",
     "icon": "Route"
   },
   {
+    "id": "maze-generator",
+    "name": "随机迷宫生成",
+    "category": "algorithms",
+    "description": "深度优先搜索驱动的地牢/迷宫地形自动构建",
+    "path": "/models/maze-generator/index.html",
+    "icon": "Map"
+  },
+  {
+    "id": "bst-visualizer",
+    "name": "二叉搜索树演示",
+    "category": "algorithms",
+    "description": "BST 的插入、查找与删除过程的即时交互可视化",
+    "path": "/models/bst-visualizer/index.html",
+    "icon": "Binary"
+  },
+  {
+    "id": "boids-flocking",
+    "name": "Boids 群体模拟",
+    "category": "simulation",
+    "description": "基于经典力学规则的鸟群/鱼群集群行为演算",
+    "path": "/models/boids-flocking/index.html",
+    "icon": "Bird"
+  },
+  {
+    "id": "game-of-life",
+    "name": "康威生命游戏",
+    "category": "simulation",
+    "description": "经典的细胞自动机，探索混沌边缘的秩序生成",
+    "path": "/models/game-of-life/index.html",
+    "icon": "Grid"
+  },
+  {
+    "id": "wolf-sheep-grass",
+    "name": "生态平衡演算",
+    "category": "simulation",
+    "description": "捕食者与猎物的种群动力学模拟，观察生态系统演化",
+    "path": "/models/wolf-sheep-grass/index.html",
+    "icon": "Leaf"
+  },
+  {
+    "id": "wave-simulation",
+    "name": "弹簧波动模拟",
+    "category": "simulation",
+    "description": "网格弹簧系统实时模拟波传播与物理阻尼衰减",
+    "path": "/models/wave-simulation/index.html",
+    "icon": "Waves"
+  },
+  {
     "id": "pi-beans",
     "name": "蒙特卡洛投针",
+    "category": "math",
     "description": "高并发随机撒豆法估算圆周率 π 的数学实验",
     "path": "/models/pi-beans/index.html",
     "icon": "Circle"
   },
   {
-    "id": "sorting-visualizer",
-    "name": "排序算法可视化",
-    "description": "经典数据结构排序逻辑（冒泡、快排等）的视觉追踪",
-    "path": "/models/sorting-visualizer/index.html",
-    "icon": "BarChart3"
+    "id": "mandelbrot-set",
+    "name": "曼德博分形",
+    "category": "math",
+    "description": "复平面上的无穷递归美学，探索分形的无限细节",
+    "path": "/models/mandelbrot-set/index.html",
+    "icon": "Variable"
   },
   {
-    "id": "wave-simulation",
-    "name": "波动物理学模拟",
-    "description": "二维流体与能量波纹扩散的流体力学交互",
-    "path": "/models/wave-simulation/index.html",
-    "icon": "Waves"
+    "id": "fourier-transform",
+    "name": "傅里叶级数",
+    "category": "math",
+    "description": "通过旋转圆盘叠加还原复杂曲线的数学奇迹",
+    "path": "/models/fourier-transform/index.html",
+    "icon": "RotateCw"
   },
   {
-    "id": "wolf-sheep-grass",
-    "name": "生态平衡演算",
-    "description": "捕食者与猎物的种群动力学（Lotka-Volterra）模拟",
-    "path": "/models/wolf-sheep-grass/index.html",
-    "icon": "Leaf"
+    "id": "prime-spiral",
+    "name": "质数乌拉姆螺旋",
+    "category": "math",
+    "description": "揭示自然数序列中质数分布的神秘几何图案",
+    "path": "/models/prime-spiral/index.html",
+    "icon": "Zap"
   }
 ]

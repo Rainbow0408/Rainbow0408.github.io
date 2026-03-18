@@ -51,6 +51,17 @@ function DynamicBackground() {
 
 function AnimatedRoutes({ models }) {
   const location = useLocation();
+
+  // Re-trigger Busuanzi on route change to track SPA navigation
+  useEffect(() => {
+    if (window.busuanzi_counts) {
+      // Small delay to ensure it catches the new route
+      setTimeout(() => {
+        try { window.busuanzi_counts(); } catch (e) {}
+      }, 500);
+    }
+  }, [location.pathname]);
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>

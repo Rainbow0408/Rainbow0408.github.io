@@ -14,21 +14,31 @@ export function MusicPlayer() {
 
   const currentSong = playlist[currentIdx];
 
-  // Initialize audio tag
-  useEffect(() => {
-    if (audioRef.current && currentSong) {
-      audioRef.current.src = currentSong.url;
-      if (isPlaying) {
-        audioRef.current.play().catch(e => console.error("Playback prevented:", e));
-      }
+  // Lazy audio: only set src when user interacts (play/skip)
+  const loadAndPlay = (song) => {
+    if (audioRef.current && song) {
+      audioRef.current.src = song.url;
+      audioRef.current.play().catch(e => console.error("Playback prevented:", e));
     }
-  }, [currentIdx, currentSong]);
+  };
+
+  // When track changes and already playing, load new track
+  useEffect(() => {
+    if (isPlaying && audioRef.current && currentSong) {
+      loadAndPlay(currentSong);
+    }
+  }, [currentIdx]);
 
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play().catch(e => console.error("Playback prevented:", e));
+      // First play or resume: ensure src is set
+      if (!audioRef.current.src || audioRef.current.src === window.location.href) {
+        loadAndPlay(currentSong);
+      } else {
+        audioRef.current.play().catch(e => console.error("Playback prevented:", e));
+      }
     }
     setIsPlaying(!isPlaying);
   };

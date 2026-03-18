@@ -1,4 +1,4 @@
-﻿const barsContainer = document.getElementById("bars");
+const barsContainer = document.getElementById("bars");
 const algorithmSelect = document.getElementById("algorithm");
 const distributionSelect = document.getElementById("distribution");
 const speedInput = document.getElementById("speed");
@@ -283,6 +283,104 @@ async function mergeSort(array, left, right, hooks) {
   await merge(array, left, mid, right, hooks);
 }
 
+async function shellSort(array, hooks) {
+  const length = array.length;
+  let gap = Math.floor(length / 2);
+  while (gap > 0) {
+    for (let i = gap; i < length; i += 1) {
+      const temp = array[i];
+      let j = i;
+      while (j >= gap) {
+        await hooks.compare(j - gap, j);
+        if (array[j - gap] > temp) {
+          await hooks.overwrite(j, array[j - gap]);
+          j -= gap;
+        } else {
+          break;
+        }
+      }
+      await hooks.overwrite(j, temp);
+    }
+    gap = Math.floor(gap / 2);
+  }
+}
+
+async function countingSort(array, hooks) {
+  const max = Math.max(...array);
+  const min = Math.min(...array);
+  const range = max - min + 1;
+  const count = new Array(range).fill(0);
+  const output = new Array(array.length);
+
+  for (let i = 0; i < array.length; i += 1) {
+    count[array[i] - min] += 1;
+    await hooks.compare(i, i);
+  }
+  for (let i = 1; i < range; i += 1) {
+    count[i] += count[i - 1];
+  }
+  for (let i = array.length - 1; i >= 0; i -= 1) {
+    output[count[array[i] - min] - 1] = array[i];
+    count[array[i] - min] -= 1;
+  }
+  for (let i = 0; i < array.length; i += 1) {
+    await hooks.overwrite(i, output[i]);
+  }
+}
+
+async function getDigit(num, place) {
+  return Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
+}
+
+async function radixSort(array, hooks) {
+  const max = Math.max(...array);
+  const maxDigits = Math.floor(Math.log10(max)) + 1;
+
+  for (let d = 0; d < maxDigits; d += 1) {
+    const buckets = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < array.length; i += 1) {
+      const digit = await getDigit(array[i], d);
+      buckets[digit].push(array[i]);
+      await hooks.compare(i, i);
+    }
+    let idx = 0;
+    for (const bucket of buckets) {
+      for (const val of bucket) {
+        await hooks.overwrite(idx, val);
+        idx += 1;
+      }
+    }
+  }
+}
+
+async function cocktailShakerSort(array, hooks) {
+  let start = 0;
+  let end = array.length - 1;
+  let swapped = true;
+
+  while (swapped) {
+    swapped = false;
+    for (let i = start; i < end; i += 1) {
+      await hooks.compare(i, i + 1);
+      if (array[i] > array[i + 1]) {
+        await hooks.swap(i, i + 1);
+        swapped = true;
+      }
+    }
+    end -= 1;
+    if (!swapped) break;
+    swapped = false;
+    for (let i = end; i > start; i -= 1) {
+      await hooks.compare(i, i - 1);
+      if (array[i] < array[i - 1]) {
+        await hooks.swap(i, i - 1);
+        swapped = true;
+      }
+    }
+    start += 1;
+  }
+}
+
 const sorters = {
   quick: (array, hooks) => quickSort(array, 0, array.length - 1, hooks),
   merge: (array, hooks) => mergeSort(array, 0, array.length - 1, hooks),
@@ -290,6 +388,10 @@ const sorters = {
   bubble: (array, hooks) => bubbleSort(array, hooks),
   selection: (array, hooks) => selectionSort(array, hooks),
   insertion: (array, hooks) => insertionSort(array, hooks),
+  shell: (array, hooks) => shellSort(array, hooks),
+  counting: (array, hooks) => countingSort(array, hooks),
+  radix: (array, hooks) => radixSort(array, hooks),
+  cocktail: (array, hooks) => cocktailShakerSort(array, hooks),
 };
 
 function setControlsEnabled(enabled) {
