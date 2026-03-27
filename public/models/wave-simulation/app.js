@@ -21,11 +21,11 @@ document.getElementById('reset').addEventListener('click', ()=>{ for(let j=0;j<g
 
 document.getElementById('disturb').addEventListener('click', disturb);
 
-dampingInput.addEventListener('input', (e)=>{ damping = parseFloat(e.value); dampingLabel.textContent = damping.toFixed(3); });
-impactInput.addEventListener('input', (e)=>{ impact = parseInt(e.value,10); impactLabel.textContent = impact; });
+dampingInput.addEventListener('input', (e)=>{ damping = parseFloat(e.target.value); dampingLabel.textContent = damping.toFixed(3); });
+impactInput.addEventListener('input', (e)=>{ impact = parseInt(e.target.value,10); impactLabel.textContent = impact; });
 
 function update(){ const next=[]; for(let j=0;j<gridH;j++){ next[j]=[]; for(let i=0;i<gridW;i++){ if(i===0||j===0||i===gridW-1||j===gridH-1){ next[j][i]=0; continue; } next[j][i] = ((current[j-1][i] + current[j+1][i] + current[j][i-1] + current[j][i+1]) / 2) - previous[j][i]; next[j][i] *= damping; }} previous=current; current=next; }
 
-function render(){ ctx.fillStyle='rgba(4,8,20,0.25)'; ctx.fillRect(0,0,canvas.width,canvas.height); for(let j=0;j<gridH;j++){ for(let i=0;i<gridW;i++){ const h=current[j][i]; if(Math.abs(h)>0.5){ const intensity=Math.max(0, Math.min(1, (h+100)/200)); ctx.fillStyle=`rgba(${50+200*intensity},${80+120*intensity},${220},${Math.min(0.5,intensity))}`; ctx.fillRect(i*spacing, j*spacing, spacing, spacing); } }} }
+function render(){ ctx.fillStyle='rgba(4,8,20,0.25)'; ctx.fillRect(0,0,canvas.width,canvas.height); for(let j=0;j<gridH;j++){ for(let i=0;i<gridW;i++){ const h=current[j][i]; if(Math.abs(h)>0.5){ const intensity=Math.max(0, Math.min(1, (h+100)/200)); ctx.fillStyle=`rgba(${50+200*intensity},${80+120*intensity},${220},${Math.min(0.5,intensity)})`; ctx.fillRect(i*spacing, j*spacing, spacing, spacing); } }} }
 
 function loop(){ update(); render(); requestAnimationFrame(loop);} loop();

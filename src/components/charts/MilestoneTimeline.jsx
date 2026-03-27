@@ -50,12 +50,25 @@ export function MilestoneTimeline() {
                       <div className="text-indigo-600 dark:text-indigo-400 font-extrabold text-3xl font-mono mb-3 drop-shadow-md tracking-wider">
                          {milestone.year}
                       </div>
-                      <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 mb-3">
-                         {milestone.title}
-                      </h3>
-                      <p className="text-gray-700 dark:text-gray-400 text-base leading-relaxed">
-                         {milestone.description}
-                      </p>
+                      {milestone.restricted ? (
+                        <>
+                          <h3 className="text-2xl font-bold font-mono text-rose-600 dark:text-rose-400 mb-3">
+                            ACCESS_DENIED
+                          </h3>
+                          <p className="text-gray-700 dark:text-gray-400 text-base leading-relaxed font-mono">
+                            {milestone.description}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 mb-3">
+                             {milestone.title}
+                          </h3>
+                          <p className="text-gray-700 dark:text-gray-400 text-base leading-relaxed">
+                             {milestone.description}
+                          </p>
+                        </>
+                      )}
                    </div>
                 </div>
              </motion.div>

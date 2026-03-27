@@ -44,9 +44,9 @@ function renderSolution(){ grid.forEach(c=>c.show()); ctx.fillStyle='rgba(255,70
 let genInterval;
 setup();
 
-gridWInput.addEventListener('input', (e) => { gridWLabel.textContent = e.value; });
-gridHInput.addEventListener('input', (e) => { gridHLabel.textContent = e.value; });
-speedInput.addEventListener('input', (e) => { speedLabel.textContent = e.value; });
+gridWInput.addEventListener('input', (e) => { gridWLabel.textContent = e.target.value; });
+gridHInput.addEventListener('input', (e) => { gridHLabel.textContent = e.target.value; });
+speedInput.addEventListener('input', (e) => { speedLabel.textContent = e.target.value; });
 
 generateBtn.addEventListener('click', () => {
   setup();

@@ -1,10 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ModelViewer } from './components/ModelViewer.jsx';
 import { LandingPage } from './LandingPage.jsx';
 import { ModelDirectory } from './components/ModelDirectory.jsx';
-import { AnimePage } from './pages/AnimePage.jsx';
 import { MapPage } from './pages/MapPage.jsx';
 import { siteData } from './config/siteData.js';
 import { MusicPlayer } from './components/MusicPlayer.jsx';
@@ -66,7 +65,7 @@ function AnimatedRoutes({ models }) {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/anime" element={<AnimePage />} />
+        <Route path="/anime" element={<Navigate to="/" replace />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/models" element={<ModelDirectory models={models} />} />
         <Route path="/model/:id" element={<ModelViewer models={models} />} />

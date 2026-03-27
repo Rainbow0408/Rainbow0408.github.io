@@ -1,11 +1,20 @@
 import ReactECharts from 'echarts-for-react';
 import { TiltCard } from '../TiltCard.jsx';
 
-// Sample visitor data (will grow as real data accumulates)
+// 手动记录访客数据，当前统计截止 3/27。
 const visitorData = [
   { date: '3/16', visitors: 10 },
   { date: '3/17', visitors: 22 },
   { date: '3/18', visitors: 1 },
+  { date: '3/19', visitors: 2 },
+  { date: '3/20', visitors: 3 },
+  { date: '3/21', visitors: 2 },
+  { date: '3/22', visitors: 3 },
+  { date: '3/23', visitors: 2 },
+  { date: '3/24', visitors: 3 },
+  { date: '3/25', visitors: 2 },
+  { date: '3/26', visitors: 3 },
+  { date: '3/27', visitors: 2 },
 ];
 
 export function VisitorChart() {
@@ -76,6 +85,9 @@ export function VisitorChart() {
           </h2>
           <p className="text-gray-600 dark:text-gray-400 font-mono text-sm mt-1 uppercase tracking-widest">
             Visitor History
+          </p>
+          <p className="text-[11px] text-gray-500 dark:text-gray-400 font-mono mt-1">
+            截止 3/27（手动记录）
           </p>
         </div>
         <div className="text-right">

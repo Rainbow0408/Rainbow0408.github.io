@@ -59,8 +59,8 @@ function render(){ ctx.fillStyle='rgba(3,5,23,0.22)'; ctx.fillRect(0,0,canvas.wi
 function update(){ particles.forEach(p=>p.update()); particles=particles.filter(p=>p.alpha>0); }
 
 canvas.addEventListener('click',(e)=>{ const rect=canvas.getBoundingClientRect(); explode(e.clientX-rect.left,e.clientY-rect.top); });
-countInput.addEventListener('input', (e) => { particleCount = parseInt(e.value, 10); countLabel.textContent=particleCount; });
-gravityInput.addEventListener('input', (e) => { gravity = parseFloat(e.value); gravityLabel.textContent=gravity.toFixed(2); });
+countInput.addEventListener('input', (e) => { particleCount = parseInt(e.target.value, 10); countLabel.textContent=particleCount; });
+gravityInput.addEventListener('input', (e) => { gravity = parseFloat(e.target.value); gravityLabel.textContent=gravity.toFixed(2); });
 clearBtn.addEventListener('click',()=>{ particles=[]; ctx.clearRect(0,0,canvas.width,canvas.height); });
 
 let autoInterval = null;

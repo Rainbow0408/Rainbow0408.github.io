@@ -22,9 +22,9 @@ let time=0;
 function step(dt){ const dx=sigma*(y-x); const dy=x*(rho-z)-y; const dz=x*y-beta*z; x+=dx*dt; y+=dy*dt; z+=dz*dt; }
 
 document.getElementById('reset').addEventListener('click', ()=>{ x=0.1;y=0;z=0; ctx.clearRect(0,0,canvas.width,canvas.height); });
-sigmaInput.addEventListener('input', (e)=>{ sigma=parseFloat(e.value); sigmaLabel.textContent=sigma.toFixed(1); });
-rhoInput.addEventListener('input', (e)=>{ rho=parseFloat(e.value); rhoLabel.textContent=rho.toFixed(1); });
-betaInput.addEventListener('input', (e)=>{ beta=parseFloat(e.value); betaLabel.textContent=beta.toFixed(3); });
+sigmaInput.addEventListener('input', (e)=>{ sigma=parseFloat(e.target.value); sigmaLabel.textContent=sigma.toFixed(1); });
+rhoInput.addEventListener('input', (e)=>{ rho=parseFloat(e.target.value); rhoLabel.textContent=rho.toFixed(1); });
+betaInput.addEventListener('input', (e)=>{ beta=parseFloat(e.target.value); betaLabel.textContent=beta.toFixed(3); });
 document.getElementById('toggle').addEventListener('click', ()=>{ paused=!paused; document.getElementById('toggle').textContent= paused?'继续':'暂停'; });
 
 function loop(){ if(!paused){ step(0.008); draw(); time+=0.3; } requestAnimationFrame(loop); }

@@ -6,7 +6,6 @@ import { PreferenceRadar } from "./components/charts/PreferenceRadar.jsx";
 import { MilestoneTimeline } from "./components/charts/MilestoneTimeline.jsx";
 import { TechTreeGraph } from "./components/charts/TechTreeGraph.jsx";
 import { CTAButton } from "./components/CTAButton.jsx";
-import { Guestbook } from "./components/Guestbook.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { motion } from "framer-motion";
 
@@ -59,8 +58,6 @@ export function LandingPage() {
           <MilestoneTimeline />
         </div>
         
-        {/* Row 7: Guestbook */}
-        <Guestbook />
       </div>
       
       {/* Footer with visitor stats */}

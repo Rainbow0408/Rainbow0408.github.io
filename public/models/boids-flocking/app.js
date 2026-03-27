@@ -48,10 +48,10 @@ function render(){ ctx.fillStyle='rgba(4,10,30,0.2)'; ctx.fillRect(0,0,settings.
 
 function loop(){ if(!paused){ flock(); boids.forEach(b=>b.update()); render(); } requestAnimationFrame(loop); }
 
-countInput.addEventListener('input', (e)=>{ const v=parseInt(e.value,10); countLabel.textContent=v; });
-separationInput.addEventListener('input', (e)=>{ sepLabel.textContent=parseFloat(e.value).toFixed(2); });
-alignmentInput.addEventListener('input', (e)=>{ aliLabel.textContent=parseFloat(e.value).toFixed(2); });
-cohesionInput.addEventListener('input', (e)=>{ cohLabel.textContent=parseFloat(e.value).toFixed(3); });
+countInput.addEventListener('input', (e)=>{ const v=parseInt(e.target.value,10); countLabel.textContent=v; });
+separationInput.addEventListener('input', (e)=>{ sepLabel.textContent=parseFloat(e.target.value).toFixed(2); });
+alignmentInput.addEventListener('input', (e)=>{ aliLabel.textContent=parseFloat(e.target.value).toFixed(2); });
+cohesionInput.addEventListener('input', (e)=>{ cohLabel.textContent=parseFloat(e.target.value).toFixed(3); });
 resetBtn.addEventListener('click', ()=>initBoids(parseInt(countInput.value,10)));
 toggleBtn.addEventListener('click', ()=>{ paused=!paused; toggleBtn.textContent=paused?'继续':'暂停'; });
 

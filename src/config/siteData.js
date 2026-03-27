@@ -95,7 +95,7 @@ export const siteData = {
 
   // 2. 看板娘视线追踪交互配置 (Live2D Tracking)
   live2d: {
-    enable: true,
+    enable: false,
     modelPath: "/live2d/model.json", // 预留模型路径
     expressions: { "C/C++": "serious", "AI": "thinking" } // 悬浮不同技能节点触发的表情
   },
@@ -173,7 +173,7 @@ export const siteData = {
   // 5. 架构师成长时间轴 (Milestone Timeline)
   milestones: [
     { year: "7岁", title: "知识启蒙", description: "初次接触电脑，推开了数字世界的大门。", icon: "monitor" },
-    { year: "17岁", title: "情感锚点", description: "遇到了明明。", icon: "heart" },
+    { year: "17岁", title: "[REDACTED]", description: "管理员设置暂时无法查看该锚点。", icon: "lock", restricted: true },
     { year: "18岁", title: "步入殿堂", description: "考入大学，正式开始系统性的计算机科学学习。", icon: "book" },
     { year: "20岁", title: "底层觉醒", description: "接触 C 语言，开始理解内存、指针与底层系统的艺术。", icon: "chip" },
     { year: "21岁", title: "拥抱前沿", description: "接触大模型 AI 与 Agent 技术，探索人工智能与底层安全的结合边界。", icon: "bot" },
@@ -193,11 +193,11 @@ export const siteData = {
     { id: "concurrency", label: "多线程并发控制", category: "core", status: "unlocked", parent: "cpp" },
 
     // 分支二：人工智能
-    { id: "ai", label: "人工智能", category: "ai", status: "training", parent: "root" },
-    { id: "ml", label: "机器学习基础 (ML)", category: "ai", status: "training", parent: "ai" },
-    { id: "cnn", label: "卷积神经网络 (CNN)", category: "ai", status: "training", parent: "ai" },
-    { id: "rnn", label: "循环神经网络 (RNN)", category: "ai", status: "training", parent: "ai" },
-    { id: "transformer", label: "Transformer 架构", category: "ai", status: "training", parent: "ai" },
+    { id: "ai", label: "人工智能", category: "ai", status: "locked", parent: "root" },
+    { id: "ml", label: "机器学习基础 (ML)", category: "ai", status: "locked", parent: "ai" },
+    { id: "cnn", label: "卷积神经网络 (CNN)", category: "ai", status: "locked", parent: "ai" },
+    { id: "rnn", label: "循环神经网络 (RNN)", category: "ai", status: "locked", parent: "ai" },
+    { id: "transformer", label: "Transformer 架构", category: "ai", status: "locked", parent: "ai" },
 
     // 分支三：前端开发
     { id: "frontend", label: "前端开发", category: "frontend", status: "locked", parent: "root" },
